@@ -9,10 +9,8 @@ import Connections.TaggedConnection;
 
 public class Server {
     public static void main(String[] args) {
-        ServerSocket ss = null;
-        try {
-            ss = new ServerSocket(12345);
-        } catch (IOException e) { e.printStackTrace();        }
+
+        ServerSocket ss = InitializeServer();
 
         System.out.println("Esperando por Cliente...");
         Socket clientSocket = null;
@@ -25,10 +23,24 @@ public class Server {
 
         TaggedConnection taggedConnection = new TaggedConnection(clientSocket);
         Frame frame1 = new Frame(1,"ola cliente".getBytes());
-        taggedConnection.send(frame1);
+        while(true)
+        {
+            taggedConnection.send(frame1);
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) { e.printStackTrace();            }
+        }
         
+        // try {
+        //     taggedConnection.close();
+        // } catch (IOException e) { e.printStackTrace();        }
+    }
+
+    private static ServerSocket InitializeServer() {
+        ServerSocket ss = null;
         try {
-            taggedConnection.close();
-        } catch (IOException e) { e.printStackTrace();        }
+            ss = new ServerSocket(12345);
+        } catch (IOException e) { e.printStackTrace();}
+        return ss;
     }
 }
