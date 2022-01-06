@@ -32,6 +32,8 @@ public class Server {
             } catch (InterruptedException e) { e.printStackTrace();            }
         }
         
+        // taggedConnection.close();
+        
         // try {
         //     taggedConnection.close();
         // } catch (IOException e) { e.printStackTrace();        }

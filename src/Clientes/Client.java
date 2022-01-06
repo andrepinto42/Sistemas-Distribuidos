@@ -7,6 +7,7 @@ import Connections.Demultiplexer;
 import Connections.Frame;
 import Connections.TaggedConnection;
 import Threads.ThreadWorker;
+import Threads.ThreadsClient.Thread1;
 
 public class Client {
     public static void main(String[] args) throws IOException {
@@ -21,28 +22,13 @@ public class Client {
         Demultiplexer demultiplexer = new Demultiplexer(tag);
         demultiplexer.start();
 
-        Thread teste = new Thread(() -> {
-            try  {
-                // send request
-                // demultiplexer.send(1, "Ola".getBytes());
-
-                // get reply
-                while(true)
-                {
-                    System.out.println("Waiting for a message");
-                    byte[] data = demultiplexer.receive(1);
-                    System.out.println("(1) Reply: " + new String(data));
-                }
-
-            }  catch (Exception ignored) { ignored.printStackTrace();}
-        });
+        ThreadWorker teste = new Thread1(demultiplexer,1);
         
         teste.start();
 
         try {
-            Thread.sleep(100000);
-        } catch (InterruptedException e) { e.printStackTrace();        }
-
+            teste.join();            
+        } catch (Exception e) { e.printStackTrace(); }
 
         tag.close();
     }

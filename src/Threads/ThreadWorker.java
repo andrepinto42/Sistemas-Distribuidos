@@ -6,32 +6,37 @@ import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Stack;
 
+import Connections.Demultiplexer;
 import Connections.Frame;
 import Connections.TaggedConnection;
 
-public class ThreadWorker implements Runnable {
-
-    TaggedConnection tag;
-    Queue<Frame> queueFrame = new PriorityQueue<Frame>();
+public abstract class  ThreadWorker extends Thread {
     
-    public ThreadWorker(TaggedConnection tag) {
-    this.tag = tag;
+    Demultiplexer demultiplexer;
+    int tag;
+    public ThreadWorker(Demultiplexer dm,int tag)
+    {
+        this.demultiplexer = dm;
+        this.tag = tag;
     }
 
     @Override
-    public void run()  {
-        try{
-        Frame frame1 = new Frame(0,"hi".getBytes());
-        tag.send(frame1);
-        
-        while (true)
-        {
-            
-            Frame frame2 = tag.receive();
-            
-            System.out.println( frame2.toString());
+    public void run() {
+        try  {
+     
+            while(true)
+            {
+                byte[] data = demultiplexer.receive(tag);
+                System.out.println("tag " + tag + " Received -> " + new String(data));
+                HandleMessage(data);
+            }
+
+        }  catch (Exception ignored) { 
+            ignored.printStackTrace();
+            System.out.println("Thread nao consegui terminar");
+            return;
         }
-        }catch(Exception e){e.printStackTrace();}
     }
 
+    public abstract void HandleMessage(byte[] data);
 }
