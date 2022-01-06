@@ -25,6 +25,7 @@ public class Server {
         Frame frame1 = new Frame(1,"ola cliente".getBytes());
         while(true)
         {
+            System.out.println("Sending " + frame1.toString());
             taggedConnection.send(frame1);
             try {
                 Thread.sleep(1000);

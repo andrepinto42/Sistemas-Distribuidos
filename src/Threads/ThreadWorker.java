@@ -21,16 +21,15 @@ public class ThreadWorker implements Runnable {
     @Override
     public void run()  {
         try{
+        Frame frame1 = new Frame(0,"hi".getBytes());
+        tag.send(frame1);
+        
         while (true)
         {
-            Frame frame1 = new Frame(0,"hi".getBytes());
-            tag.send(frame1);
-    
+            
             Frame frame2 = tag.receive();
             
             System.out.println( frame2.toString());
-            
-
         }
         }catch(Exception e){e.printStackTrace();}
     }

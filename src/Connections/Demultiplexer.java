@@ -16,8 +16,8 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class Demultiplexer{
     public TaggedConnection tagConnection;
-    public Lock lock;
-    private final Map<Integer,Entry> buf = new HashMap<>();
+    public Lock lock ;
+    private  Map<Integer,Entry> bufferMensagens = new HashMap<>();
 
     private class Entry{
         public final Condition cond = lock.newCondition();
@@ -26,12 +26,7 @@ public class Demultiplexer{
     }
 
     private Entry get(int tag){
-        Entry e = buf.get(tag);
-        if ( e == null)
-        {
-            e = new Entry();
-            buf.put(tag,e);
-        }
+        Entry e = bufferMensagens.get(tag);
         return e;
     }
 
@@ -41,27 +36,36 @@ public class Demultiplexer{
     }
 
     public void start() {
-        new Thread(() -> {
+        //Por enquanto só lesse do buffer mensagens com um 1
+        bufferMensagens.put(1, new Entry());
+
+        Thread t = new Thread(() -> {
             try  {
                 while(true)
                 {
                    var f = tagConnection.receive();
-
+                    System.out.println("Received from server " + f.toString());
                    lock.lock();
                    try{
                         //Adicionar a frame à nossa queue
                         Entry e = get(f.tag);
                         e.queue.add(f.data);
+                        // System.out.println("Dados da queue");
+                        // for (var v : e.queue) {
+                        //     System.out.print( new String(v) + " ");
+                        // }
                         //Acordar thread que está à espera da informaçao
-                        e.cond.signal();
+                        e.cond.notify();
                    }finally{
                        lock.unlock();
                    }
                 }
             }  catch (Exception e) {
-                buf.forEach((k,v) -> v.cond.signalAll());
+                bufferMensagens.forEach((k,v) -> v.cond.signalAll());
             }
         });
+
+        t.start();
 
     }
 
@@ -71,20 +75,27 @@ public class Demultiplexer{
 
     public byte[] receive(int i)throws IOException, InterruptedException {
         
+        System.out.println("Hello tehre");
         Entry e = get(i);
         e.waiters +=1;
-        for(;;){
-            if (! e.queue.isEmpty())
-            {
-                byte[] b = e.queue.poll();
-                e.waiters -=1;
-                if(e.queue.isEmpty() && e.waiters == 0)
-                    buf.remove(i);
+        try{
+            lock.lock();
+            for(;;){
+                if (! e.queue.isEmpty())
+                {
+                    byte[] b = e.queue.poll();
+                    e.waiters -=1;
                 
-                return b;
+                    //Por enquanto nao se remove nada
+                    // if(e.queue.isEmpty() && e.waiters == 0)
+                    //     bufferMensagens.remove(i);
+                    return b;
+                }
+                System.out.println("Going to wait for someone to wake me up");
+                e.cond.await();
             }
-            e.cond.await();                
-        }
+
+        }finally { lock.unlock();}
     }
 
     public void close() {
