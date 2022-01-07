@@ -23,6 +23,7 @@ public class Demultiplexer{
         public final Condition cond;
         public final ArrayDeque<byte[]> queue = new ArrayDeque<>();
         public Lock lock = new ReentrantLock();
+        public boolean alive = true;
         public Entry()
         {
             cond = this.lock.newCondition();
@@ -74,6 +75,7 @@ public class Demultiplexer{
                 System.out.println("Servidor foi interrompido");
                 for (var entrada : bufferMensagens.values()) {
                     entrada.lock.lock();
+                    entrada.alive = false;
                     entrada.cond.signalAll();
               }
             }
@@ -92,7 +94,7 @@ public class Demultiplexer{
         Entry e = get(i);
         e.waiters +=1;
         e.lock.lock();
-        for(;;){
+        while(e.alive){
             if (! e.queue.isEmpty())
             {
                 byte[] b = e.queue.poll();
@@ -101,10 +103,9 @@ public class Demultiplexer{
                 return b;
             }
             //Este await liberta automaticamente o lock;
-            System.out.println("Waiting for a signal man");
             e.cond.await();
         }
-
+        throw new InterruptedException();
     }
 
     public void close() {

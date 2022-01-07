@@ -44,11 +44,11 @@ public class Client {
         return tag;
     }
 
-    private static void test1(TaggedConnection tag)
-    {
+    // private static void test1(TaggedConnection tag)
+    // {
 
-     Runnable tw = new ThreadWorker(tag);
+    //  Runnable tw = new ThreadWorker(tag);
         
-        tw.run();
-    }
+    //     tw.run();
+    // }
 }

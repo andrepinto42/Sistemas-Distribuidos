@@ -28,7 +28,7 @@ public abstract class  ThreadWorker extends Thread {
             {
                 byte[] data = demultiplexer.receive(tag);
                 System.out.println("tag " + tag + " Received -> " + new String(data));
-                HandleMessage(data);
+                HandleMessage(new String(data));
             }
 
         }  catch (Exception ignored) { 
@@ -38,5 +38,5 @@ public abstract class  ThreadWorker extends Thread {
         }
     }
 
-    public abstract void HandleMessage(byte[] data);
+    public abstract void HandleMessage(String data);
 }
