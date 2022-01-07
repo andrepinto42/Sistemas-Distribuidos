@@ -20,7 +20,7 @@ public class ThreadCreateServer extends Thread {
 
         String data = null;
         do {
-      
+        
         demultiplexer.send(1, "start".getBytes());
         try {
             byte[] arr = demultiplexer.receive(1);

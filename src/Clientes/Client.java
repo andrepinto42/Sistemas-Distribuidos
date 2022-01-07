@@ -6,6 +6,7 @@ import java.net.Socket;
 import Connections.Demultiplexer;
 import Connections.Frame;
 import Connections.TaggedConnection;
+import Menu.Interpreter;
 import Threads.ThreadWorker;
 import Threads.ThreadsClient.Thread1;
 
@@ -18,10 +19,14 @@ public class Client {
         Frame frame1 = new Frame(1,"hi".getBytes());
         tag.send(frame1);
 
+      
 
         Demultiplexer demultiplexer = new Demultiplexer(tag);
         demultiplexer.start();
-
+        
+        Interpreter it = new Interpreter(demultiplexer);
+        it.Initialize();
+        
         ThreadWorker teste = new Thread1(demultiplexer,1);
         
         teste.start();
