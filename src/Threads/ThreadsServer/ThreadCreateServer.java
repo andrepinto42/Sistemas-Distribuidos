@@ -7,6 +7,8 @@ import Connections.TaggedConnection;
 
 public class ThreadCreateServer extends Thread {
     TaggedConnection taggedConnection;
+    private static final String SucessCode = "200";
+    
     public ThreadCreateServer(TaggedConnection taggedConnection)
     {
         this.taggedConnection = taggedConnection;
@@ -29,9 +31,9 @@ public class ThreadCreateServer extends Thread {
                 data = new String(arr);
             } catch (IOException | InterruptedException e1) { e1.printStackTrace();}
         
-        } while (!data.equals("andre;123;"));
+        } while (CheckValidUser(data));
         
-        demultiplexer.send(1, "200".getBytes());
+        demultiplexer.send(1, SucessCode.getBytes());
         
         try {
             var nextAnswer = demultiplexer.receive(2);
@@ -40,5 +42,10 @@ public class ThreadCreateServer extends Thread {
         }
 
         demultiplexer.close();
+    }
+
+    //TODO
+    private boolean CheckValidUser(String data) {
+        return !data.equals("andre;123;");
     }
 }

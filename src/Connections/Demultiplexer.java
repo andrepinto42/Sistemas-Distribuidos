@@ -21,14 +21,14 @@ public class Demultiplexer{
         tagConnection = taggedConnection;
         lock = new ReentrantLock();
     }
-
+    private Thread ReadingSocketThread;
     public void start() {
         //Por enquanto só lesse do buffer mensagens com um 1
         bufferMensagens.put(1, new Entry());
         bufferMensagens.put(2, new Entry());
 
 
-        Thread t = new Thread(() -> {
+        ReadingSocketThread = new Thread(() -> {
             try  {
                 while(true)
                 {
@@ -58,7 +58,7 @@ public class Demultiplexer{
             }
         });
 
-        t.start();
+        ReadingSocketThread.start();
     }
 
     public void send(int i, byte[] bytes) {
@@ -86,6 +86,7 @@ public class Demultiplexer{
         try {
             tagConnection.close();
         } catch (Exception e) {}
+
     }
     
 }

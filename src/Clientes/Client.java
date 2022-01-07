@@ -28,14 +28,16 @@ public class Client {
         it.Initialize();
         
         //Nao passa para baixo disto
-        ThreadWorker teste = new Thread1(demultiplexer,1);
+        // ThreadWorker teste = new Thread1(demultiplexer,1);
         
-        teste.start();
+        // teste.start();
 
-        try {
-            teste.join();            
-        } catch (Exception e) { e.printStackTrace(); }
-
+        // try {
+        //     teste.join();            
+        // } catch (Exception e) { e.printStackTrace(); }
+        
+        demultiplexer.close();
+        
         tag.close();
     }
 

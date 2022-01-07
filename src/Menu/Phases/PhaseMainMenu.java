@@ -15,7 +15,7 @@ public class PhaseMainMenu extends Phase{
             "Menu",
             "quit -> Sair do programa"
         };
-        TipForInput = "$:";
+        TipForInput = "$";
         InputForStages = new String[]{};
         numberStages = InputForStages.length +1;
         this.dm = dm;

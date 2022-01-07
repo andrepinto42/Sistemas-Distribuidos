@@ -13,6 +13,7 @@ public abstract class Phase {
     protected  String[] InputForStages;
     protected String warningMessageTop = "";
     protected String sucessMessage = "";
+    
     protected Demultiplexer dm;
     
     public Phase(Demultiplexer dm)

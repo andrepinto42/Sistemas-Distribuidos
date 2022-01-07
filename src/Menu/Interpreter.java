@@ -13,6 +13,7 @@ import Menu.Phases.PhaseAutenticaçao;
 public class Interpreter {
     Scanner sc;
     boolean alive = true;
+    boolean userLoggedIn = false;
     List<String> CommandsByUser = new ArrayList<String>();
     
     public Demultiplexer dm;
@@ -42,7 +43,8 @@ public class Interpreter {
             {
                 if (phaseNow instanceof PhaseAutenticaçao)
                     break;
-                
+                if (!userLoggedIn)
+                    break;
                 phaseNow = new PhaseAutenticaçao(dm);
                 continue;
             }
@@ -55,6 +57,7 @@ public class Interpreter {
             }
             
             Phase newPhase = phaseNow.HandleCommand(CommandsByUser);
+
             System.out.println(CommandsByUser +" \n\n");
             
             CommandsByUser.clear();
@@ -64,5 +67,14 @@ public class Interpreter {
 
         }
         sc.close();
+    }
+
+    public boolean isUserLogged()
+    {
+        return userLoggedIn;
+    }
+    public void SetUserLogged(boolean value)
+    {
+        userLoggedIn = value;
     }
 }
