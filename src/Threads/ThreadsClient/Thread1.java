@@ -14,7 +14,7 @@ public class Thread1 extends ThreadWorker {
 
 
     @Override
-    public void HandleMessage(byte[] data) {
+    public void HandleMessage(String data) {
         
     }
     

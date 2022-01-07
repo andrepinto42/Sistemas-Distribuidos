@@ -27,7 +27,6 @@ public abstract class  ThreadWorker extends Thread {
             while(true)
             {
                 byte[] data = demultiplexer.receive(tag);
-                System.out.println("tag " + tag + " Received -> " + new String(data));
                 HandleMessage(new String(data));
             }
 
