@@ -26,8 +26,10 @@ public abstract class  ThreadWorker extends Thread {
      
             while(true)
             {
+                demultiplexer.send(1, "Ola meu".getBytes());
                 byte[] data = demultiplexer.receive(tag);
                 HandleMessage(new String(data));
+                Thread.sleep(1000);
             }
 
         }  catch (Exception ignored) { 

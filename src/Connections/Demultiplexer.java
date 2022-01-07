@@ -38,10 +38,7 @@ public class Demultiplexer{
                          e = get(f.tag);  
                          //Fechar o acesso desta entry pois estamos prestes a escrever
                          e.lock.lock();
-
                          e.queue.add(f.data);
-                        
-
                          //Acordar thread que está à espera da informaçao
                          e.cond.signal();
                     }finally{
