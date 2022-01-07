@@ -1,5 +1,6 @@
 package Menu;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -25,11 +26,16 @@ public class Interpreter {
     {
         Phase phaseNow = new PhaseAutenticaçao(dm);
         
+        try {
+            byte[] answerFromServer = dm.receive(1);
+            System.out.println("Received First message " + new String(answerFromServer));
+        } catch (IOException | InterruptedException e) {e.printStackTrace();        }
+        
         String comandoInput = "";
         while(alive)
         {
             //Por enquanto deixar em comentario para ver o programa a dar debug
-             ShowMenu.ClearScreen();
+            //ShowMenu.ClearScreen();
 
             comandoInput = phaseNow.Show(sc);
             if (comandoInput.equalsIgnoreCase("quit"))

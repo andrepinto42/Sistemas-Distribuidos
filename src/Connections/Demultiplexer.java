@@ -25,13 +25,15 @@ public class Demultiplexer{
     public void start() {
         //Por enquanto só lesse do buffer mensagens com um 1
         bufferMensagens.put(1, new Entry());
+        bufferMensagens.put(2, new Entry());
+
 
         Thread t = new Thread(() -> {
             try  {
                 while(true)
                 {
                     var f = tagConnection.receive();
-                    System.out.println("Received from server " + f.toString());
+                    System.out.println("DM Thread received  " + f.toString());
                     Entry e=null;
                     try{
                          //Adicionar a frame à nossa queue
@@ -66,20 +68,16 @@ public class Demultiplexer{
     public byte[] receive(int i)throws IOException, InterruptedException {
         
         Entry e = get(i);
-        e.waiters +=1;
         e.lock.lock();
         while(e.alive){
             if (! e.queue.isEmpty())
             {
                 byte[] b = e.queue.poll();
-                e.waiters -=1;
             
                 return b;
             }
             //Este await liberta automaticamente o lock;
             e.cond.await();
-            if (!e.alive)
-                System.out.println("Parou caralho");
         }
         throw new InterruptedException();
     }

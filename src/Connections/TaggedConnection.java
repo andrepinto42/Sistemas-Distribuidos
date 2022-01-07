@@ -34,7 +34,6 @@ public class TaggedConnection implements AutoCloseable {
     public void send(int tag,byte[] data){
         sendLock.lock();
         try {
-        
             /*
                 FORMATO -> Length | Tag | Data
             */
@@ -42,6 +41,7 @@ public class TaggedConnection implements AutoCloseable {
             outputSocket.writeInt(tag);
             outputSocket.write(data);
             outputSocket.flush();
+            System.out.println("Sent [" + tag + "] " + new String(data));
         }
         catch(Exception e){
             

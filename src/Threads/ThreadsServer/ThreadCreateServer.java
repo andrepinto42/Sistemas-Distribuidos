@@ -18,26 +18,27 @@ public class ThreadCreateServer extends Thread {
         Demultiplexer demultiplexer = new Demultiplexer(taggedConnection);
         demultiplexer.start();
 
+        demultiplexer.send(1, "start".getBytes());
+
         String data = null;
         do {
+                //Enviar ao cliente para iniciar a fase de Autenticação
+
+            try {
+                byte[] arr = demultiplexer.receive(1);
+                data = new String(arr);
+            } catch (IOException | InterruptedException e1) { e1.printStackTrace();}
         
-        demultiplexer.send(1, "start".getBytes());
+        } while (!data.equals("andre;123;"));
+        
+        demultiplexer.send(1, "200".getBytes());
+        
         try {
-            byte[] arr = demultiplexer.receive(1);
-            data = new String(arr);
-            System.out.println("Recebi isto chefe " + data);
-        } catch (IOException | InterruptedException e1) { e1.printStackTrace();}
-        } while (!data.equals("ok"));
-        // Thread t = new ThreadServerAutentication(demultiplexer, 1);
-        // t.start();
+            var nextAnswer = demultiplexer.receive(2);
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
 
-        // try {
-        //     t.join();
-        // } catch (InterruptedException e) {
-        //     e.printStackTrace();
-        // }
-
-        
         demultiplexer.close();
     }
 }

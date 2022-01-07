@@ -27,6 +27,7 @@ public class Client {
         Interpreter it = new Interpreter(demultiplexer);
         it.Initialize();
         
+        //Nao passa para baixo disto
         ThreadWorker teste = new Thread1(demultiplexer,1);
         
         teste.start();

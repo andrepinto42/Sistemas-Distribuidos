@@ -34,13 +34,13 @@ public class PhaseAutenticaçao extends Phase{
             byte[] answerFromServer = dm.receive(1);
             String answerString = new String(answerFromServer);
 
+            System.out.print("Received from server " + answerString);
+            
             if (answerString.equals("200"))
-            {
-                System.out.println("Everything ok");
-            }
+                return new PhaseMainMenu(dm);
             else
             {
-                System.out.println("NOT OK");
+                System.out.println(" NOT OK");
             }
 
         } catch (IOException | InterruptedException e) {
@@ -48,4 +48,5 @@ public class PhaseAutenticaçao extends Phase{
         }
         return null;
     }
+
 }
