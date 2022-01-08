@@ -17,28 +17,14 @@ public class Client {
         TaggedConnection tag = InitializeClient();
 
 
-        Frame frame1 = new Frame(1,"hi".getBytes());
-        tag.send(frame1);
-
-      
-
         Demultiplexer demultiplexer = new Demultiplexer(tag);
         demultiplexer.start();
         
         Interpreter it = new Interpreter(demultiplexer);
         it.Initialize();
         
-        //Nao passa para baixo disto
-        // ThreadWorker teste = new Thread1(demultiplexer,1);
-        
-        // teste.start();
-
-        // try {
-        //     teste.join();            
-        // } catch (Exception e) { e.printStackTrace(); }
-        
         demultiplexer.close();
-        
+        System.out.println("Client shutted down");
         tag.close();
     }
 

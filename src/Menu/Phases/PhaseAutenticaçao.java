@@ -4,11 +4,13 @@ import java.io.IOException;
 import java.util.List;
 
 import Connections.Demultiplexer;
+import Threads.ThreadClient.ThreadGetInfoServer;
 
 public class PhaseAutenticaçao extends Phase{
     
     public PhaseAutenticaçao(Demultiplexer dm)
     {
+        super(dm);
         Messages =  new String[]{
             "Autenticação",
             "",
@@ -19,7 +21,6 @@ public class PhaseAutenticaçao extends Phase{
             "Password",
         };
         numberStages = InputForStages.length +1;
-        this.dm = dm;
     }
 
     @Override
@@ -34,13 +35,21 @@ public class PhaseAutenticaçao extends Phase{
             byte[] answerFromServer = dm.receive(1);
             String answerString = new String(answerFromServer);
 
-            System.out.print("Received from server " + answerString);
+            ChangeWarningMessage(answerString);
             
             if (answerString.equals("200"))
+            {
+                //Cliente entrou com sucesso no servidor
+                
+                //Cliente demonstra que quer comunicar com o servidor
+                dm.send(2, "Show".getBytes());
+                Thread getInfoServer = new ThreadGetInfoServer(dm);
+                getInfoServer.start();
                 return new PhaseMainMenu(dm);
+            }
             else
             {
-                System.out.println(" NOT OK");
+                System.out.println("Autenticaçao do cliente falhou");
             }
 
         } catch (IOException | InterruptedException e) {

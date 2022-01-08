@@ -8,6 +8,7 @@ import java.util.Scanner;
 import Connections.Demultiplexer;
 import Menu.Phases.Phase;
 import Menu.Phases.PhaseAutenticaçao;
+import Menu.Phases.PhaseMainMenu;
 
 
 public class Interpreter {
@@ -41,11 +42,10 @@ public class Interpreter {
             comandoInput = phaseNow.Show(sc);
             if (comandoInput.equalsIgnoreCase("quit"))
             {
-                if (phaseNow instanceof PhaseAutenticaçao)
+                if (phaseNow instanceof PhaseAutenticaçao || phaseNow instanceof PhaseMainMenu)
                     break;
-                if (!userLoggedIn)
-                    break;
-                phaseNow = new PhaseAutenticaçao(dm);
+               
+                phaseNow = new PhaseMainMenu(dm);
                 continue;
             }
 

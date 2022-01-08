@@ -48,4 +48,17 @@ public class ClientData {
     {
         return allCidades;
     }
+
+    public void PrintVoos()
+    {
+        System.out.println("-------------------------\nPrinting All Voos");
+        for (var entry : allVoos.entrySet()) {
+            System.out.println("Cidade origem -> " + entry.getKey().getNome());
+            System.out.print("Cidades destino -> ");
+            for (Cidade cidade : entry.getValue()) {
+                System.out.print(cidade.getNome() + " | ");
+            }
+            System.out.print("\n-------------------------\n");
+        }
+    }
 }

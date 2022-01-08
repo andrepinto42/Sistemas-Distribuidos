@@ -55,7 +55,7 @@ public class ThreadShowMenu extends Thread {
         for (int i = 0; i < allCities.size(); i++) {
             List<Cidade> allDestinos = db.GetPossibleVoo(allCities.get(i));
             for (Cidade cidade : allDestinos) {
-                sBuilder.append(cidade.getNome()).append("|");
+                sBuilder.append(cidade.getNome()).append(";");
             }
             sBuilder.append("@");
         }

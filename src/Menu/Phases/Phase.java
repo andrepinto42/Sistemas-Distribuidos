@@ -3,7 +3,9 @@ package Menu.Phases;
 import java.util.List;
 import java.util.Scanner;
 
+import Clientes.Client;
 import Connections.Demultiplexer;
+import DataBase.ClientData;
 import Menu.ShowMenu;
 
 public abstract class Phase {
@@ -13,14 +15,19 @@ public abstract class Phase {
     protected  String[] InputForStages;
     protected String warningMessageTop = "";
     protected String sucessMessage = "";
+    protected ClientData clientData;
     
     protected Demultiplexer dm;
     
     public Phase(Demultiplexer dm)
     {
         this.dm = dm;
+        clientData = Client.GetClientData();
     }
-    public Phase(){}
+    public Phase()
+    {
+        clientData = Client.GetClientData();
+    }
 
     public String Show(Scanner sc)
     {

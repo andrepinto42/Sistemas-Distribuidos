@@ -12,5 +12,14 @@ public class Cidade {
     public void setNome(String nome) {
         this.nome = nome;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (! (obj instanceof Cidade))
+            return false;
+        Cidade c = (Cidade) obj;
+
+        return c.getNome().toLowerCase().equals( nome.toLowerCase());
+    }
     
 }
