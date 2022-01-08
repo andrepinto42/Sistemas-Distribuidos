@@ -7,10 +7,13 @@ import java.net.Socket;
 import Connections.Demultiplexer;
 import Connections.Frame;
 import Connections.TaggedConnection;
+import ServerDataBase.ServerData;
 import Threads.ThreadsServer.ThreadCreateServer;
 import Threads.ThreadsServer.ThreadServerAutentication;
 
 public class Server {
+    private static ServerData database;
+
     public static void main(String[] args) {
 
         ServerSocket ss = InitializeServer();
@@ -58,6 +61,14 @@ public class Server {
         try {
             ss = new ServerSocket(1234);
         } catch (IOException e) { e.printStackTrace();}
+
+        database = new ServerData();
+        
         return ss;
+    }
+
+    public static ServerData getDataBase()
+    {
+        return database;
     }
 }

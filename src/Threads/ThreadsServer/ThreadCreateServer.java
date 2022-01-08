@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import Connections.Demultiplexer;
 import Connections.TaggedConnection;
+import Servidores.Server;
 
 public class ThreadCreateServer extends Thread {
     TaggedConnection taggedConnection;
@@ -25,7 +26,7 @@ public class ThreadCreateServer extends Thread {
         String data = null;
         do {
                 //Enviar ao cliente para iniciar a fase de Autenticação
-
+                Server.getDataBase().PrintVoos();
             try {
                 byte[] arr = demultiplexer.receive(1);
                 data = new String(arr);
