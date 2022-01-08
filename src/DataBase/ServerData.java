@@ -1,4 +1,4 @@
-package ServerDataBase;
+package DataBase;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.stream.Collectors;
 
 import Viagens.Cidade;
-import Viagens.Voo;
 
 public class ServerData {
 
@@ -84,6 +84,14 @@ public class ServerData {
         try{
             lockVoos.lock();
             return allVoos.get(origem);
+        }finally{ lockVoos.unlock();}
+    }
+
+    public List<Cidade> GetAllCidades()
+    {
+        try{
+            lockVoos.lock();
+            return allVoos.keySet().stream().collect(Collectors.toList());
         }finally{ lockVoos.unlock();}
     }
 

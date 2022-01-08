@@ -6,11 +6,11 @@ import Connections.Demultiplexer;
 import Connections.TaggedConnection;
 import Servidores.Server;
 
-public class ThreadCreateServer extends Thread {
+public class ThreadAutetication extends Thread {
     TaggedConnection taggedConnection;
     private static final String SucessCode = "200";
     
-    public ThreadCreateServer(TaggedConnection taggedConnection)
+    public ThreadAutetication(TaggedConnection taggedConnection)
     {
         this.taggedConnection = taggedConnection;
     }
@@ -23,10 +23,11 @@ public class ThreadCreateServer extends Thread {
 
         demultiplexer.send(1, "start".getBytes());
 
+        Server.getDataBase().PrintVoos();
+
         String data = null;
         do {
                 //Enviar ao cliente para iniciar a fase de Autenticação
-                Server.getDataBase().PrintVoos();
             try {
                 byte[] arr = demultiplexer.receive(1);
                 data = new String(arr);
@@ -36,13 +37,11 @@ public class ThreadCreateServer extends Thread {
         
         demultiplexer.send(1, SucessCode.getBytes());
         
-        try {
-            var nextAnswer = demultiplexer.receive(2);
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
-        }
+        //Passar para a fase seguinte -> Atender pedidos do utilizador
+        Thread tShowMenu = new ThreadShowMenu(demultiplexer);
+        tShowMenu.start();
 
-        demultiplexer.close();
+        System.out.println("Thread de autenticação foi terminada...");
     }
 
     //TODO

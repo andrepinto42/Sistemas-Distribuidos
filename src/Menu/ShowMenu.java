@@ -1,7 +1,7 @@
 package Menu;
 
 public class ShowMenu {
-    private static int maxSize = 30;
+    private static int maxSize = 40;
     
     /*
         Função principal

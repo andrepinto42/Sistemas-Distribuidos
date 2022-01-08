@@ -4,12 +4,10 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import Connections.Demultiplexer;
 import Connections.Frame;
 import Connections.TaggedConnection;
-import ServerDataBase.ServerData;
-import Threads.ThreadsServer.ThreadCreateServer;
-import Threads.ThreadsServer.ThreadServerAutentication;
+import DataBase.ServerData;
+import Threads.ThreadsServer.ThreadAutetication;
 
 public class Server {
     private static ServerData database;
@@ -31,7 +29,7 @@ public class Server {
 
 
             TaggedConnection taggedConnection = new TaggedConnection(clientSocket);
-            Thread client = new ThreadCreateServer(taggedConnection);
+            Thread client = new ThreadAutetication(taggedConnection);
             client.start();
         }
 

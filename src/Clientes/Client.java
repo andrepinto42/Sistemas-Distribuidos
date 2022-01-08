@@ -6,11 +6,12 @@ import java.net.Socket;
 import Connections.Demultiplexer;
 import Connections.Frame;
 import Connections.TaggedConnection;
+import DataBase.ClientData;
 import Menu.Interpreter;
-import Threads.ThreadWorker;
-import Threads.ThreadsClient.Thread1;
 
 public class Client {
+    private static ClientData clientData;
+
     public static void main(String[] args) throws IOException {
         
         TaggedConnection tag = InitializeClient();
@@ -49,7 +50,13 @@ public class Client {
         } catch (IOException e) { e.printStackTrace();        }
         
         TaggedConnection tag = new TaggedConnection(socketClient);
+        clientData = new ClientData();
         return tag;
+    }
+
+    public static ClientData GetClientData()
+    {
+        return clientData;
     }
 
     // private static void test1(TaggedConnection tag)
