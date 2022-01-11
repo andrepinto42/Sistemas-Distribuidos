@@ -3,11 +3,10 @@ package Clientes;
 import java.io.IOException;
 import java.net.Socket;
 
+import Clientes.Menu.Interpreter;
 import Connections.Demultiplexer;
 import Connections.Frame;
 import Connections.TaggedConnection;
-import DataBase.ClientData;
-import Menu.Interpreter;
 
 public class Client {
     private static ClientData clientData;

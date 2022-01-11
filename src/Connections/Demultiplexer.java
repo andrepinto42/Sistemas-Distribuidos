@@ -27,6 +27,7 @@ public class Demultiplexer{
         bufferMensagens.put(1, new Entry());
         bufferMensagens.put(2, new Entry());
         bufferMensagens.put(3, new Entry());
+        bufferMensagens.put(4, new Entry());//Receber voos do cliente
 
 
 
@@ -35,7 +36,7 @@ public class Demultiplexer{
                 while(true)
                 {
                     var f = tagConnection.receive();
-                    System.out.println("DM Thread received  " + f.toString());
+                    System.out.println("Received ["+ f.tag +"] " + new String(f.data));
                     Entry e=null;
                     try{
                          //Adicionar a frame à nossa queue

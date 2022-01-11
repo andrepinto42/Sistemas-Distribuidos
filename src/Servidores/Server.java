@@ -6,8 +6,7 @@ import java.net.Socket;
 
 import Connections.Frame;
 import Connections.TaggedConnection;
-import DataBase.ServerData;
-import Threads.ThreadsServer.ThreadAutetication;
+import Servidores.ThreadsServer.ThreadAutetication;
 
 public class Server {
     private static ServerData database;

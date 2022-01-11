@@ -4,13 +4,14 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Stack;
 
 import Viagens.Cidade;
 
 
 public class BreadthFirst {
 
-    public static Map<Cidade, Cidade> BFS( Map<Cidade,List<Cidade>> mapa,Cidade origem,Cidade destino) throws Exception
+    public static Stack<Cidade> BFS( Map<Cidade,List<Cidade>> mapa,Cidade origem,Cidade destino) throws Exception
     {
         if (!mapa.containsKey(origem) || !mapa.containsKey(destino))
             throw new Exception("Não existe esse elemento no mapa");
@@ -55,6 +56,14 @@ public class BreadthFirst {
                 }
             }
         }
-        return cityTree;
+        Stack<Cidade> caminho = new Stack<Cidade>();
+        Cidade pai = destino;
+        while(pai !=null)
+        {
+            caminho.push(pai);
+            pai = cityTree.get(pai);
+        }
+        
+        return caminho;
     }
 }
