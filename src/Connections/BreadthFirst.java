@@ -10,8 +10,10 @@ import Viagens.Cidade;
 
 public class BreadthFirst {
 
-    public static Map<Cidade, Cidade> BFS( Map<Cidade,List<Cidade>> mapa,Cidade origem,Cidade destino)
+    public static Map<Cidade, Cidade> BFS( Map<Cidade,List<Cidade>> mapa,Cidade origem,Cidade destino) throws Exception
     {
+        if (!mapa.containsKey(origem) || !mapa.containsKey(destino))
+            throw new Exception("Não existe esse elemento no mapa");
         Map<Cidade,Cidade> cityTree = new HashMap<>();
 
         //Inicializar o a estrutura de todas as cidades visitadas como falsa
@@ -42,7 +44,6 @@ public class BreadthFirst {
                 //City of destination has been found;
                 break;
             }
-
             for (Cidade next : mapa.get(current)) {  
 
                 if ( ! visited.get(next) )

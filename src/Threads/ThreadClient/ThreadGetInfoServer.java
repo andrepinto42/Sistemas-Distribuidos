@@ -21,11 +21,11 @@ public class ThreadGetInfoServer extends Thread {
     @Override
     public void run() {
         try {
-            var answer = dm.receive(2);
+            var answer = dm.receive(3);
             int size =ParseFirstMessageShow(answer);
             System.out.println("I received the voos from server " + new String(answer));
 
-            answer = dm.receive(2);
+            answer = dm.receive(3);
             ParseSecondMessageShow(answer,size);
             System.out.println("I received destination list from server " + new String(answer));
 

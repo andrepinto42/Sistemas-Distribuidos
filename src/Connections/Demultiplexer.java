@@ -26,6 +26,8 @@ public class Demultiplexer{
         //Por enquanto só lesse do buffer mensagens com um 1
         bufferMensagens.put(1, new Entry());
         bufferMensagens.put(2, new Entry());
+        bufferMensagens.put(3, new Entry());
+
 
 
         ReadingSocketThread = new Thread(() -> {

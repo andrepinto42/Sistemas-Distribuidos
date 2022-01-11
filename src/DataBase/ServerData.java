@@ -46,9 +46,11 @@ public class ServerData {
         addVoo(c1,c3);
         addVoo(c3,c4);
         addVoo(c8,c9);
+        addVoo(c8,c4);
         addVoo(c5,c6);
         addVoo(c8,c9);
         addVoo(c8,c7);
+        addVoo(c9,c1);
     }
 
     //Se pudemos fazer um voo de origem para destino tambem pudemos fazer um de destino para origem

@@ -21,5 +21,14 @@ public class Cidade {
 
         return c.getNome().toLowerCase().equals( nome.toLowerCase());
     }
+    //As cidadas iguais estavam a ter hash diferentes, metodo teve de ser reescrito para definir a hash apenas como o nome
+    @Override
+    public int hashCode()
+    {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + nome.hashCode();
+        return result;
+    }
     
 }

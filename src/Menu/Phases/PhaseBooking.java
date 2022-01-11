@@ -1,6 +1,7 @@
 package Menu.Phases;
 
 import java.util.List;
+import java.util.Map;
 
 import Clientes.Client;
 import Connections.Demultiplexer;
@@ -36,17 +37,39 @@ public class PhaseBooking extends Phase {
 
     @Override
     public Phase HandleCommand(List<String> s) {
-        Cidade origem = new Cidade(s.get(0));
-        Cidade destino = new Cidade( s.get(1));
+
+        //Converter braga para Braga
+        String origin = ConvertToUpperCase(s.get(0));
+        String destiny = ConvertToUpperCase(s.get(1));
+
+        Cidade origem = new Cidade(origin);
+        Cidade destino = new Cidade(destiny);
         String dia = s.get(2);
 
+        
         clientData.PrintVoos();
         
-        var tree = BreadthFirst.BFS(clientData.GetAllVoos(), origem, destino);
-
-        for (var entry : tree.entrySet()) {
-            System.out.println(entry.getKey().getNome() + " e " + entry.getValue().getNome());
+        Map<Cidade, Cidade> tree = null;
+        try {
+            tree = BreadthFirst.BFS(clientData.GetAllVoos(), origem, destino);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
+
+        Cidade end = tree.get(destino);
+        int i=0;
+        while(end !=null || i>20)
+        {
+            System.out.println(end.getNome() + " -> ");
+            end = tree.get(end);
+            i++;
+        }
+
         return null;
+    }
+
+    private String ConvertToUpperCase(String s1) {
+        return Character.toUpperCase(s1.charAt(0)) + s1.substring(1);
     }
 }

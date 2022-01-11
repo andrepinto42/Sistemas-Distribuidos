@@ -22,7 +22,7 @@ public class ThreadShowMenu extends Thread {
         while(true)
         {
             try {
-                var nextAnswer = dm.receive(2);
+                var nextAnswer = dm.receive(3);
                 String answer = new String(nextAnswer);
                 if (answer.equals("Show"));
                 {
@@ -48,7 +48,7 @@ public class ThreadShowMenu extends Thread {
         }
 
         //9;Hong Kong;Madrid;Turim;Veneza;New York;Pyongyang;Nevada;Braga;Porto;
-        dm.send(2,sBuilder.toString().getBytes());
+        dm.send(3,sBuilder.toString().getBytes());
 
         sBuilder.delete(0, sBuilder.length());
 
@@ -60,6 +60,6 @@ public class ThreadShowMenu extends Thread {
             sBuilder.append("@");
         }
 
-        dm.send(2,sBuilder.toString().getBytes());
+        dm.send(3,sBuilder.toString().getBytes());
     }
 }

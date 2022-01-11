@@ -42,7 +42,7 @@ public class PhaseAutenticaçao extends Phase{
                 //Cliente entrou com sucesso no servidor
                 
                 //Cliente demonstra que quer comunicar com o servidor
-                dm.send(2, "Show".getBytes());
+                dm.send(3, "Show".getBytes());
                 Thread getInfoServer = new ThreadGetInfoServer(dm);
                 getInfoServer.start();
                 return new PhaseMainMenu(dm);
