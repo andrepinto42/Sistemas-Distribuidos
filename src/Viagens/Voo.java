@@ -1,38 +1,38 @@
 package Viagens;
 
 public class Voo {
-    public String origem;
-    public String destino;
+    public Cidade origem;
+    public Cidade destino;
     public Integer lugaresLivres;
 
 
     //final Integer lugares = 350;
 
-    public Voo(String o, String d, Integer c) {
+    public Voo(Cidade o, Cidade d, Integer c) {
         this.origem = o;
         this.destino = d;
         this.lugaresLivres = c;
     }
 
     public Voo() {
-        this.origem = "";
-        this.destino = "";
+        this.origem = new Cidade();
+        this.destino = new Cidade();
         this.lugaresLivres = 0;
     }
 
-    public String getOrigem() {
+    public Cidade getOrigem() {
         return origem;
     }
 
-    public void setOrigem(String origem) {
+    public void setOrigem(Cidade origem) {
         this.origem = origem;
     }
 
-    public String getDestino() {
+    public Cidade getDestino() {
         return destino;
     }
 
-    public void setDestino(String destino) {
+    public void setDestino(Cidade destino) {
         this.destino = destino;
     }
 

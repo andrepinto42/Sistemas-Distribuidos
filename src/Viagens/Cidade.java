@@ -2,9 +2,13 @@ package Viagens;
 
 public class Cidade {
     String nome;
+
     public Cidade(String nome)
     {
         this.nome = nome;
+    }
+    public Cidade(){
+        nome = this.getNome();
     }
     public String getNome() {
         return nome;
