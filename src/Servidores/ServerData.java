@@ -21,6 +21,8 @@ public class ServerData {
     List<Reserva> reservas = new ArrayList<>(); //reservas dos clientes | cliente pode remover se dia não tiver encerrado pelo ADM
     List<LocalDate> diasEncerrados = new ArrayList<>(); //dias encerrados pelo adm
     List<Voo> allViagensPossiveis = new ArrayList<>();
+    //Map<LocalDate,List<Voo>> todosVoos = new HashMap<>();
+
     Lock lockViagensPossiveis = new ReentrantLock();
     
    

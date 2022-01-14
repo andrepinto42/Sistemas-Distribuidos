@@ -2,14 +2,10 @@ package Servidores.ThreadsServer;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 
 import Connections.Demultiplexer;
+import Connections.Entry;
 import Servidores.Server;
 import Servidores.ServerData;
 import Viagens.Cidade;
@@ -84,23 +80,35 @@ public class ThreadHandleVoos extends Thread {
         {
             next= queue.poll(); //VENEZA
 
-            for (Voo v : db.GetAllVoosPossiveis()) {
-                if( v.origem.equals(origem) && v.destino.equals(next))
-                {
-                    boolean valid =db.DecrementVooLugares(origem, next);
-                    //Nao é possivel inserir o passageiro no voo
-                    if (!valid)
-                    {
-                        return "-1";
-                    }
-                    listaVoos.add(v);
+            for(Reserva re : db.getReservas()){
+                if(re.getData().equals(data)){
+                    List<Voo> voos = re.getTravel();
 
-                    found = true;
+                    for(Voo v1 : voos){
+                        if( v1.origem.equals(origem) && v1.destino.equals(next)) {
+                            boolean valid =db.DecrementVooLugares(origem, next);
+                            if (!valid) return "-1";//Nao é possivel inserir o passageiro no voo
+                            listaVoos.add(v1);
+                            found = true;
+                        }
+                    }
+                }
+            }
+
+            if(!found) {
+                for (Voo v : db.GetAllVoosPossiveis()) {
+                    if (v.origem.equals(origem) && v.destino.equals(next)) {
+                        boolean valid = db.DecrementVooLugares(origem, next);
+                        //Nao é possivel inserir o passageiro no voo
+                        if (!valid) return "-1";
+                        listaVoos.add(v);
+                        found = true;
+                    }
                 }
             }
             if (!found)
             {
-                System.out.println("Esse voo nao existe man, por favor pede ao admin para inserir na base de dados");
+                //System.out.println("Esse voo nao existe man, por favor pede ao admin para inserir na base de dados");
                 return null;
                 // Voo newVoo = new Voo(origem, next, 4);
                 // db.GetAllVoosPossiveis().add(newVoo);

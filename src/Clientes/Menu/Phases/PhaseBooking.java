@@ -64,7 +64,7 @@ public class PhaseBooking extends Phase {
             if (reservationID.equals("-1"))
             {
                  //Id de reserva nao é valido, tratar da reserva falhada
-                 ChangeWarningMessage("Nao foi possivel reservar o voo\n");
+                 ChangeWarningMessage("Voo com lotação maxima, tente outra data\n");
                  return null;
             }
             if(reservationID.equals("-2"))
@@ -72,7 +72,6 @@ public class PhaseBooking extends Phase {
                 ChangeWarningMessage("O voo nao existe, peça ao admin para introduzir esse voo\n");
                 return null;
             }
-
             String sucessMessage = "Reserva de "+ origin + " para o destino " + destiny + " foi adicionada com sucesso!\n" + "ID de Reserva: "+reservationID;
             return new PhaseMainMenu(dm,sucessMessage);
 
