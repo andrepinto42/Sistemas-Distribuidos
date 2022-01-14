@@ -26,7 +26,7 @@ public class PhaseMainMenu extends Phase{
             "",
             "Menu",
             "quit -> Sair do programa",
-            "book -> Ver todos os voos possiveis",
+            "book -> fazer uma reserva",
         };
         TipForInput = "$";
         InputForStages = new String[]{};

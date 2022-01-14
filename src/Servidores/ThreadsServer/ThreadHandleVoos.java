@@ -38,7 +38,6 @@ public class ThreadHandleVoos extends Thread {
                 return;
             }
         }
-
     }
 
     private void HandleVoosFromClient(String message) throws IOException, InterruptedException {
@@ -54,9 +53,6 @@ public class ThreadHandleVoos extends Thread {
 
         LocalDate data = LocalDate.parse( sc.next());
         // System.out.println("A data de reserva é " + data);
-
-        
-
 
         boolean isValid = ValidadeVoosFromClient(new LinkedList<>(queue));
         boolean canReserve  =  ReservarVoo(queue,data);
@@ -115,11 +111,8 @@ public class ThreadHandleVoos extends Thread {
         for (int i = 0; i < 9; i++) {//id com 9 digitos
             idReserv.append(random.nextInt(10));}// gerar um número aleatório entre 0 e 9
 
-        novaReserva.setIdReserva(idReserv.toString());
-        novaReserva.setData(data);
-        novaReserva.setTravel(listaVoos);
-
-        db.getReservas().add(novaReserva);
+        db.getReservas().add(new Reserva(idReserv.toString(),listaVoos,data));
+        System.out.println("Reserva concluida!" + "ID de reserva: " + idReserv);
        //db.PrintAllVoosPossiveis();
         return true;
     }

@@ -21,7 +21,7 @@ public class PhaseBooking extends Phase {
         List<Cidade> allCities = Client.GetClientData().GetAllCidades();
 
         String arr[] = new String[allCities.size() +1];
-        arr[0] = "Marcar Voo";
+        arr[0] = "Fazer Reserva";
         for (int i = 0; i < allCities.size(); i++) {
             arr[i+1] = allCities.get(i).getNome();
         }
@@ -63,7 +63,7 @@ public class PhaseBooking extends Phase {
             boolean isValid = HandleVooConnections(origem,destino,date);
             if (isValid)
             {
-                String sucessMessage = "Voo de "+ origin + " para o destino " + destiny + " foi adicionada com sucesso!\n";
+                String sucessMessage = "Reserva de "+ origin + " para o destino " + destiny + " foi adicionada com sucesso!\n";
                 return new PhaseMainMenu(dm,sucessMessage);
             }
         } catch (Exception e) {

@@ -17,7 +17,7 @@ public class Reserva {
         this.data = LocalDate.now();
         //this.diaEncerrado = diaE;
     }
-    public Reserva(String id, List<Voo> v, LocalDate d, Boolean diaE){
+    public Reserva(String id, List<Voo> v, LocalDate d){
         this.idReserva = id;
         this.travel = v;
         this.data = d;
