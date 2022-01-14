@@ -1,5 +1,7 @@
 package Clientes.Menu.Phases;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 import java.util.Stack;
@@ -38,17 +40,27 @@ public class PhaseBooking extends Phase {
 
     @Override
     public Phase HandleCommand(List<String> s) {
-
+        if (s.get(0).isEmpty() || s.get(1).isEmpty())
+            return null;
+        
         //Converter braga para Braga
         String origin = ConvertToUpperCase(s.get(0));
         String destiny = ConvertToUpperCase(s.get(1));
 
         Cidade origem = new Cidade(origin);
         Cidade destino = new Cidade(destiny);
-        String dia = s.get(2);
-        
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        LocalDate date;
         try {
-            boolean isValid = HandleVooConnections(origem,destino,dia);
+            date = LocalDate.parse(s.get(2), formatter);
+        } catch (Exception e) {
+            System.out.println("Data nao é valida");
+            return null;
+        }
+
+        try {
+            boolean isValid = HandleVooConnections(origem,destino,date);
             if (isValid)
             {
                 String sucessMessage = "Voo de "+ origin + " para o destino " + destiny + " foi adicionada com sucesso!\n";
@@ -62,16 +74,21 @@ public class PhaseBooking extends Phase {
         return null;
     }
 
-    private boolean HandleVooConnections(Cidade origem, Cidade destino, String dia) throws Exception {
+    private boolean HandleVooConnections(Cidade origem, Cidade destino, LocalDate dia) throws Exception {
         Stack<Cidade> caminhoStack = null;
         
         caminhoStack = BreadthFirst.BFS(clientData.GetAllVoos(), origem, destino);
 
         StringBuilder sb = new StringBuilder();
+        sb.append(caminhoStack.size()).append(";");
         while(!caminhoStack.empty())
         {
             sb.append(caminhoStack.pop().getNome()).append(";");
         }
+
+        sb.append(dia).append(";");
+
+        //4;Braga;Veneza;Turim;Nevada;12-01-2001;
         String message = sb.toString();
         System.out.println(message);
 

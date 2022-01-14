@@ -1,15 +1,20 @@
 package Servidores.ThreadsServer;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+import java.util.Random;
 import java.util.Scanner;
 
 import Connections.Demultiplexer;
 import Servidores.Server;
 import Servidores.ServerData;
 import Viagens.Cidade;
+import Viagens.Reserva;
+import Viagens.Voo;
 
 public class ThreadHandleVoos extends Thread {
     Demultiplexer dm;
@@ -41,19 +46,77 @@ public class ThreadHandleVoos extends Thread {
         sc.useDelimiter(";");
 
         Queue<Cidade> queue = new LinkedList<>();
-        while(sc.hasNext())
-        {
-            String s = sc.next();
-            Cidade c = new Cidade(s);
-            queue.add(c);
+        int numeroCidades = Integer.parseInt( sc.next());
+
+        for (int i = 0; i < numeroCidades; i++) {
+            queue.add(new Cidade( sc.next() ) );
         }
 
-        boolean isValid = ValidadeVoosFromClient(queue);
+        LocalDate data = LocalDate.parse( sc.next());
+        // System.out.println("A data de reserva é " + data);
+
         
-        if(isValid)
+
+
+        boolean isValid = ValidadeVoosFromClient(new LinkedList<>(queue));
+        boolean canReserve  =  ReservarVoo(queue,data);
+        if(isValid && canReserve)
+        {
             dm.send(4,"200".getBytes());
+        }
         else
             dm.send(4,"100".getBytes());
+    }
+
+    private boolean ReservarVoo(Queue<Cidade> queue, LocalDate data) {
+        Cidade origem =  queue.poll(); //BRAGA
+        Cidade next = null;
+        boolean found = false;
+
+        Reserva novaReserva = new Reserva();
+        List<Voo> listaVoos = new ArrayList<>();
+        
+
+        while(!queue.isEmpty())
+        {
+            next= queue.poll(); //VENEZA
+
+            for (Voo v : db.GetAllVoosPossiveis()) {
+                if( v.origem.equals(origem) && v.destino.equals(next))
+                {
+                    boolean valid =db.DecrementVooLugares(origem, next);
+                    //Nao é possivel inserir o passageiro no voo
+                    if (!valid)
+                    {
+                        return false;                
+                    }
+                    listaVoos.add(v);
+
+                    found = true;
+                }
+            }
+            if (!found)
+            {
+                Voo newVoo = new Voo(origem, next, 4);
+                db.GetAllVoosPossiveis().add(newVoo);
+
+                listaVoos.add(newVoo);
+            }
+
+            origem = next;
+            found = false;
+        }
+
+        StringBuilder idReserv = new StringBuilder();
+        Random random = new Random();
+        for (int i = 0; i < 9; i++) {//id com 9 digitos
+            idReserv.append(random.nextInt(10));}// gerar um número aleatório entre 0 e 9
+
+        if(db.get
+        novaReserva.setIdReserva(idReserv.toString());
+        novaReserva.setData(data);
+       //db.PrintAllVoosPossiveis();
+        return true;
     }
 
     private boolean ValidadeVoosFromClient(Queue<Cidade> queue) {

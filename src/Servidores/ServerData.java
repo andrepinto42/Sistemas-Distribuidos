@@ -1,5 +1,6 @@
 package Servidores;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -9,13 +10,21 @@ import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
 
 import Viagens.Cidade;
+import Viagens.Reserva;
+import Viagens.Voo;
 
 public class ServerData {
 
     List<Cidade> allCidades = new ArrayList<>();
     Map<Cidade,List<Cidade>> allVoos = new HashMap<>();
     Lock lockVoos = new ReentrantLock(); 
+    List<Reserva> reservas = new ArrayList<>(); //reservas dos clientes | cliente pode remover se dia não tiver encerrado pelo ADM
+    List<LocalDate> diasEncerrados = new ArrayList<>(); //dias encerrados pelo adm
+    List<Voo> allViagensPossiveis = new ArrayList<>();
+    Lock lockViagensPossiveis = new ReentrantLock();
     
+   
+
     public ServerData()
     {
         AddCities();
@@ -52,6 +61,8 @@ public class ServerData {
         addVoo(c8,c7);
         addVoo(c9,c1);
     }
+
+    
 
     //Se pudemos fazer um voo de origem para destino tambem pudemos fazer um de destino para origem
     public void addVoo(Cidade origem,Cidade destino)
@@ -96,6 +107,14 @@ public class ServerData {
             return allVoos.keySet().stream().collect(Collectors.toList());
         }finally{ lockVoos.unlock();}
     }
+    public List<Voo> GetAllVoosPossiveis()
+    {
+        try
+        {
+            lockViagensPossiveis.lock();
+            return allViagensPossiveis;
+        }finally {lockViagensPossiveis.unlock();}
+    }
 
     public void PrintVoos()
     {
@@ -115,6 +134,65 @@ public class ServerData {
         }finally{ lockVoos.unlock();}
     }
 
+    public Integer getVooLugares(Cidade origem,Cidade destino)
+    {
+        try
+        {
+            lockVoos.lock();
 
-    
+            for(Voo v : this.allViagensPossiveis){
+            if(v.getOrigem().equals(origem) && v.getDestino().equals(destino))
+                return v.getLugaresLivres();
+            }
+            return -1;
+
+        }finally{ lockVoos.unlock();}
+        
+            
+    }
+    public void PrintAllVoosPossiveis()
+    {
+        for (Voo v : allViagensPossiveis) {
+            System.out.println(v.origem.getNome() + " para " + v.destino.getNome() + " lugares = " + v.lugaresLivres);
+        }
+    }
+
+    public boolean DecrementVooLugares(Cidade origem,Cidade destino)
+    {
+        lockViagensPossiveis.lock();
+        try{
+            for (Voo voo : allViagensPossiveis) {
+                if (voo.origem.equals(origem) && voo.destino.equals(destino))
+                {
+                    if (voo.lugaresLivres > 0)
+                    {
+                        voo.lugaresLivres--;
+                        return true;
+                    }
+                    return false;
+                }
+            }
+            return false;
+        }finally{lockViagensPossiveis.unlock();}
+    }
+
+
+     
+    public List<Reserva> getReservas() {
+        return reservas;
+    }
+
+    public void setReservas(List<Reserva> reservas) {
+        this.reservas = reservas;
+    }
+
+    public List<LocalDate> getDiasEncerrados() {
+        return diasEncerrados;
+    }
+
+    public void setDiasEncerrados(List<LocalDate> diasEncerrados) {
+        this.diasEncerrados = diasEncerrados;
+    }
 }
+    
+
