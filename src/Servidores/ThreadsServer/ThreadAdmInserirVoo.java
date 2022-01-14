@@ -41,15 +41,15 @@ public class ThreadAdmInserirVoo extends Thread {
 
         Cidade origem = new Cidade(sc.next());
         Cidade destino = new Cidade(sc.next());
-        Integer capac = sc.nextInt();
+        Integer capac = Integer.parseInt( sc.next());
 
         boolean isValid  =  AdicionarVoo(origem,destino,capac);
         if(isValid)
         {
-            dm.send(4,"200".getBytes());
+            dm.send(9,"200".getBytes());
         }
         else
-            dm.send(4,"100".getBytes());
+            dm.send(9,"100".getBytes());
         sc.close();
     }
 

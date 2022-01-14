@@ -40,9 +40,9 @@ public class ThreadCancelaResereva extends Thread {
 
         boolean canCancell = CancelaR(id);
         if (canCancell) {
-            dm.send(4, "200".getBytes());
+            dm.send(5, "200".getBytes());
         } else
-            dm.send(4, "100".getBytes());
+            dm.send(5, "100".getBytes());
     }
 
     private boolean CancelaR(String id) {

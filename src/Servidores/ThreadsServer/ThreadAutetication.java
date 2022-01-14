@@ -47,6 +47,12 @@ public class ThreadAutetication extends Thread {
         Thread tHandlevoos = new ThreadHandleVoos(demultiplexer);
         tHandlevoos.start();
 
+        if (isAdmin)
+        {
+            Thread tAdminInserir = new ThreadAdmInserirVoo(demultiplexer);
+            tAdminInserir.start();
+        }
+
         //Resetar o valor para o admin
         isAdmin = false;
         System.out.println("Thread de autenticação foi concluida...");
