@@ -61,23 +61,26 @@ public class PhaseBooking extends Phase {
 
         try {
             String reservationID = HandleVooConnections(origem,destino,date);
-            if (!reservationID.equals("-1"))
+            if (reservationID.equals("-1"))
             {
-                String sucessMessage = "Reserva de "+ origin + " para o destino " + destiny + " foi adicionada com sucesso!\n" + "ID de Reserva: "+reservationID;
-                return new PhaseMainMenu(dm,sucessMessage);
+                 //Id de reserva nao é valido, tratar da reserva falhada
+                 ChangeWarningMessage("Nao foi possivel reservar o voo\n");
+                 return null;
             }
-            else
+            if(reservationID.equals("-2"))
             {
-                //Id de reserva nao é valido, tratar da reserva falhada
-                ChangeWarningMessage("Nao foi possivel");
+                ChangeWarningMessage("O voo nao existe, peça ao admin para introduzir esse voo\n");
                 return null;
             }
+
+            String sucessMessage = "Reserva de "+ origin + " para o destino " + destiny + " foi adicionada com sucesso!\n" + "ID de Reserva: "+reservationID;
+            return new PhaseMainMenu(dm,sucessMessage);
+
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
 
-        return null;
     }
 
     private String HandleVooConnections(Cidade origem, Cidade destino, LocalDate dia) throws Exception {

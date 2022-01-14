@@ -28,6 +28,13 @@ public class ServerData {
     public ServerData()
     {
         AddCities();
+        AddVoos();
+    }
+
+    private void AddVoos() {
+        allViagensPossiveis.add(new Voo(new Cidade("Braga"), new Cidade("Veneza"), 2));
+        allViagensPossiveis.add(new Voo(new Cidade("Veneza"),new Cidade("Turim"), 2));
+        allViagensPossiveis.add(new Voo(new Cidade("Turim"),new Cidade("Nevada"), 2));
     }
 
     private void AddCities() {

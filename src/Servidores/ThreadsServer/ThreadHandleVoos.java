@@ -56,13 +56,16 @@ public class ThreadHandleVoos extends Thread {
 
         boolean isValid = ValidadeVoosFromClient(new LinkedList<>(queue));
         String idRes  =  ReservarVoo(queue,data);
-
-        if(isValid && !idRes.equals("-1"))
+        if (idRes == null)
+        {
+            dm.send(4,"-2");
+        }
+        else if(isValid && !idRes.equals("-1"))
         {
             dm.send(4,idRes.getBytes());
         }
         else
-            dm.send(4,"100".getBytes());
+            dm.send(4,"-1".getBytes());
     }
 
     private String ReservarVoo(Queue<Cidade> queue, LocalDate data) {
@@ -97,10 +100,12 @@ public class ThreadHandleVoos extends Thread {
             }
             if (!found)
             {
-                Voo newVoo = new Voo(origem, next, 4);
-                db.GetAllVoosPossiveis().add(newVoo);
+                System.out.println("Esse voo nao existe man, por favor pede ao admin para inserir na base de dados");
+                return null;
+                // Voo newVoo = new Voo(origem, next, 4);
+                // db.GetAllVoosPossiveis().add(newVoo);
 
-                listaVoos.add(newVoo);
+                // listaVoos.add(newVoo);
             }
 
             origem = next;
