@@ -60,11 +60,19 @@ public class PhaseBooking extends Phase {
         }
 
         try {
-            String isValid = HandleVooConnections(origem,destino,date);
-            if (!isValid.equals("-1"))
+            String reservationID = HandleVooConnections(origem,destino,date);
+            if (!reservationID.equals("-1"))
             {
-                String sucessMessage = "Reserva de "+ origin + " para o destino " + destiny + " foi adicionada com sucesso!\n" + "ID de Reserva: "+isValid+"\n";
+
+                String sucessMessage = "Reserva de "+ origin + " para o destino " + destiny + " foi adicionada com sucesso!\n" + "ID de Reserva: "+reservationID;
+
                 return new PhaseMainMenu(dm,sucessMessage);
+            }
+            else
+            {
+                //Id de reserva nao é valido, tratar da reserva falhada
+                ChangeWarningMessage("Nao foi possivel");
+                return null;
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -94,9 +102,6 @@ public class PhaseBooking extends Phase {
 
         dm.send(4,message.getBytes());
         String idReserva = new String( dm.receive(4));
-
-        if (new String(idReserva).equals("100"))
-            return "-1";
 
         return idReserva;
     }
