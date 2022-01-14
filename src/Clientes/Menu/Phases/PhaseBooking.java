@@ -60,10 +60,10 @@ public class PhaseBooking extends Phase {
         }
 
         try {
-            boolean isValid = HandleVooConnections(origem,destino,date);
-            if (isValid)
+            String isValid = HandleVooConnections(origem,destino,date);
+            if (!isValid.equals("-1"))
             {
-                String sucessMessage = "Reserva de "+ origin + " para o destino " + destiny + " foi adicionada com sucesso!\n";
+                String sucessMessage = "Reserva de "+ origin + " para o destino " + destiny + " foi adicionada com sucesso!\n" + "ID de Reserva: "+isValid;
                 return new PhaseMainMenu(dm,sucessMessage);
             }
         } catch (Exception e) {
@@ -74,7 +74,7 @@ public class PhaseBooking extends Phase {
         return null;
     }
 
-    private boolean HandleVooConnections(Cidade origem, Cidade destino, LocalDate dia) throws Exception {
+    private String HandleVooConnections(Cidade origem, Cidade destino, LocalDate dia) throws Exception {
         Stack<Cidade> caminhoStack = null;
         
         caminhoStack = BreadthFirst.BFS(clientData.GetAllVoos(), origem, destino);
@@ -93,13 +93,13 @@ public class PhaseBooking extends Phase {
         System.out.println(message);
 
         dm.send(4,message.getBytes());
-        var response = dm.receive(4);
-        if (new String(response).equals("200"))
-            return true;
-        else
-            return false;
-    }
+        String idReserva = new String( dm.receive(4));
 
+        if (new String(idReserva).equals("100"))
+            return "-1";
+
+        return idReserva;
+    }
 
     private String ConvertToUpperCase(String s1) {
         return Character.toUpperCase(s1.charAt(0)) + s1.substring(1);

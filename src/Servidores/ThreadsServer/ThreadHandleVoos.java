@@ -55,16 +55,17 @@ public class ThreadHandleVoos extends Thread {
         // System.out.println("A data de reserva é " + data);
 
         boolean isValid = ValidadeVoosFromClient(new LinkedList<>(queue));
-        boolean canReserve  =  ReservarVoo(queue,data);
-        if(isValid && canReserve)
+        String idRes  =  ReservarVoo(queue,data);
+
+        if(isValid && !idRes.equals("-1"))
         {
-            dm.send(4,"200".getBytes());
+            dm.send(4,idRes.getBytes());
         }
         else
             dm.send(4,"100".getBytes());
     }
 
-    private boolean ReservarVoo(Queue<Cidade> queue, LocalDate data) {
+    private String ReservarVoo(Queue<Cidade> queue, LocalDate data) {
         Cidade origem =  queue.poll(); //BRAGA
         Cidade next = null;
         boolean found = false;
@@ -73,7 +74,7 @@ public class ThreadHandleVoos extends Thread {
         List<Voo> listaVoos = new ArrayList<>();
 
         for(LocalDate d : db.getDiasEncerrados()){
-            if(d.equals(data)) return false;
+            if(d.equals(data)) return "-1";
         }
 
         while(!queue.isEmpty())
@@ -87,7 +88,7 @@ public class ThreadHandleVoos extends Thread {
                     //Nao é possivel inserir o passageiro no voo
                     if (!valid)
                     {
-                        return false;                
+                        return "-1";
                     }
                     listaVoos.add(v);
 
@@ -112,9 +113,8 @@ public class ThreadHandleVoos extends Thread {
             idReserv.append(random.nextInt(10));}// gerar um número aleatório entre 0 e 9
 
         db.getReservas().add(new Reserva(idReserv.toString(),listaVoos,data));
-        System.out.println("Reserva concluida!" + "ID de reserva: " + idReserv);
-       //db.PrintAllVoosPossiveis();
-        return true;
+
+        return idReserv.toString();
     }
 
     private boolean ValidadeVoosFromClient(Queue<Cidade> queue) {
