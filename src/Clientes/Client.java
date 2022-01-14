@@ -14,7 +14,8 @@ public class Client {
     public static void main(String[] args) throws IOException {
         
         TaggedConnection tag = InitializeClient();
-
+        
+        if (tag == null) return;
 
         Demultiplexer demultiplexer = new Demultiplexer(tag);
         demultiplexer.start();
@@ -30,10 +31,22 @@ public class Client {
 
     private static TaggedConnection InitializeClient() { 
         Socket socketClient=null;
-        try {
-            socketClient= new Socket("localhost", 1234);
-        } catch (IOException e) { e.printStackTrace();        }
-        
+        int i =0;
+        while(i<10)
+        {
+            try {
+                socketClient= new Socket("localhost", 1234);
+                if (socketClient !=null) break;
+            }
+            catch (IOException e) { 
+                System.out.println("Failed to connect to server, Going to sleep 1s...");
+                i++;
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e1) {}
+            }
+        }
+        if (socketClient == null) return null;
         TaggedConnection tag = new TaggedConnection(socketClient);
         clientData = new ClientData();
         return tag;
