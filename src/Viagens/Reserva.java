@@ -11,6 +11,12 @@ public class Reserva {
     public LocalDate data;
     //public Boolean diaEncerrado;
 
+    public Reserva(){
+        this.idReserva = "";
+        this.travel = new ArrayList<>();
+        this.data = LocalDate.now();
+        //this.diaEncerrado = diaE;
+    }
     public Reserva(String id, List<Voo> v, LocalDate d, Boolean diaE){
         this.idReserva = id;
         this.travel = v;

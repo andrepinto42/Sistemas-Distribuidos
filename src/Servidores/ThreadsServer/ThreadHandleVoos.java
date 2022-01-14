@@ -75,7 +75,10 @@ public class ThreadHandleVoos extends Thread {
 
         Reserva novaReserva = new Reserva();
         List<Voo> listaVoos = new ArrayList<>();
-        
+
+        for(LocalDate d : db.getDiasEncerrados()){
+            if(d.equals(data)) return false;
+        }
 
         while(!queue.isEmpty())
         {
@@ -112,9 +115,11 @@ public class ThreadHandleVoos extends Thread {
         for (int i = 0; i < 9; i++) {//id com 9 digitos
             idReserv.append(random.nextInt(10));}// gerar um número aleatório entre 0 e 9
 
-        if(db.get
         novaReserva.setIdReserva(idReserv.toString());
         novaReserva.setData(data);
+        novaReserva.setTravel(listaVoos);
+
+        db.getReservas().add(novaReserva);
        //db.PrintAllVoosPossiveis();
         return true;
     }
