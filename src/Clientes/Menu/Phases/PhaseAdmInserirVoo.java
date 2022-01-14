@@ -40,7 +40,7 @@ public class PhaseAdmInserirVoo extends Phase {
         //Converter braga para Braga
         String origin = ConvertToUpperCase(s.get(0));
         String destiny = ConvertToUpperCase(s.get(1));
-        Integer capaci;
+        int capaci;
         try {
             capaci = Integer.parseInt(s.get(2));            
         } catch (Exception e) {

@@ -63,7 +63,7 @@ public class PhaseBooking extends Phase {
             String isValid = HandleVooConnections(origem,destino,date);
             if (!isValid.equals("-1"))
             {
-                String sucessMessage = "Reserva de "+ origin + " para o destino " + destiny + " foi adicionada com sucesso!\n" + "ID de Reserva: "+isValid;
+                String sucessMessage = "Reserva de "+ origin + " para o destino " + destiny + " foi adicionada com sucesso!\n" + "ID de Reserva: "+isValid+"\n";
                 return new PhaseMainMenu(dm,sucessMessage);
             }
         } catch (Exception e) {
