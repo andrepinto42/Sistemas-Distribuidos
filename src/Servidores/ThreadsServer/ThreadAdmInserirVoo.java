@@ -50,6 +50,7 @@ public class ThreadAdmInserirVoo extends Thread {
         }
         else
             dm.send(4,"100".getBytes());
+        sc.close();
     }
 
     private boolean AdicionarVoo(Cidade origem, Cidade destino, Integer capacidade) {

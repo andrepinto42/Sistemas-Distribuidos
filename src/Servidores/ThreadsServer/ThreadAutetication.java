@@ -9,6 +9,7 @@ import Servidores.Server;
 public class ThreadAutetication extends Thread {
     TaggedConnection taggedConnection;
     private static final String SucessCode = "200";
+    boolean isAdmin = false; 
     
     private String serverMessage = "start";
     
@@ -37,25 +38,33 @@ public class ThreadAutetication extends Thread {
     }
 
     private void HandleAuteticationSucess(Demultiplexer demultiplexer) {
-        demultiplexer.send(1, SucessCode.getBytes());
+        String messageToClient = SucessCode + ";" + (isAdmin ? "1" : "0") + ";"; 
+        demultiplexer.send(1, messageToClient);
         
         //Passar para a fase seguinte -> Atender pedidos do utilizador
         Thread tShowMenu = new ThreadShowMenu(demultiplexer);
         tShowMenu.start();
         Thread tHandlevoos = new ThreadHandleVoos(demultiplexer);
         tHandlevoos.start();
-        
+
+        //Resetar o valor para o admin
+        isAdmin = false;
         System.out.println("Thread de autenticação foi concluida...");
     }
 
     //TODO
     private boolean CheckNonValidUser(String data) {
-        if (!data.equals("andre;123;"))
+        if (data.equals("andre;123;"))
         {
-            serverMessage = "Dados inseridos estao incorretos\n";
-            return true;
+            return false;
         }
-
-        return false;
+        //Por enquanto o utilizador rui é um administrador
+        if(data.equals("rui;123;"))
+        {
+            isAdmin = true;
+            return false;
+        }
+        serverMessage = "Dados inseridos estao incorretos\n";
+        return true;
     }
 }

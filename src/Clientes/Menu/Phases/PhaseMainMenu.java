@@ -11,6 +11,15 @@ import Connections.Demultiplexer;
 import Viagens.Cidade;
 
 public class PhaseMainMenu extends Phase{
+    static boolean isAdmin= false;
+    public PhaseMainMenu(Demultiplexer dm,boolean adminValue)
+    {
+        this(dm);
+
+        isAdmin = adminValue;
+        SetMessages();
+
+    }
     public PhaseMainMenu(Demultiplexer dm,String sucessMessage)
     {
         this(dm);
@@ -21,31 +30,70 @@ public class PhaseMainMenu extends Phase{
     {
         super(dm);
 
-        Messages =  new String[]{
+        SetMessages();
+        TipForInput = "$";
+        InputForStages = new String[]{};
+        numberStages = InputForStages.length +1;
+    }
+    private void SetMessages() {
+        if (isAdmin)
+        { 
+            Messages = new String[]{
             "Trabalho Pratico SD",
             "",
             "Menu",
             "quit -> Sair do programa",
-            "book -> fazer uma reserva",
-        };
-        TipForInput = "$";
-        InputForStages = new String[]{};
-        numberStages = InputForStages.length +1;
+            "add -> adicionar um novo voo",
+            "cancel -> cancelar uma reserva",
+            "close -> encerrar as reservas um dia",
+            };
+
+        }
+        else
+        {
+            Messages =  new String[]{
+                "Trabalho Pratico SD",
+                "",
+                "Menu",
+                "quit -> Sair do programa",
+                "book -> fazer uma reserva",
+            };
+        }
+        
     }
 
     @Override
     public Phase HandleCommand(List<String> s) {
         String command = s.get(0);
 
-        switch (command) {
-            case "book":
-                return new PhaseBooking(dm);
-            default:
-                break;
+        return HandleConsole(command,isAdmin);
+    }
+
+    public Phase HandleConsole(String command,boolean admin)
+    {
+        if (isAdmin){
+            switch (command) {
+                case "book":
+                    return new PhaseBooking(dm);
+                case "add":
+                    return new PhaseAdmInserirVoo(dm);
+                case "close":
+                    return new PhaseEncerrarDia(dm);
+                case "cancel":
+                    return new PhaseCancelarReserva(dm);
+                default:
+                    break;
+            }
+        }
+        else{
+            switch (command) {
+                case "book":
+                    return new PhaseBooking(dm);
+                default:
+                    break;
+            }
         }
 
         return null;
     }
-
-
 }

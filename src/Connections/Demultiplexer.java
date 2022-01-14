@@ -63,7 +63,10 @@ public class Demultiplexer{
 
         ReadingSocketThread.start();
     }
-
+    public void send(int i, String s){
+        tagConnection.send(i,s.getBytes());
+    }
+    
     public void send(int i, byte[] bytes) {
         tagConnection.send(i, bytes);
     }

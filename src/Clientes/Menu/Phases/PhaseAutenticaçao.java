@@ -2,6 +2,7 @@ package Clientes.Menu.Phases;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Scanner;
 
 import Clientes.ThreadClient.ThreadGetInfoServer;
 import Connections.Demultiplexer;
@@ -36,16 +37,29 @@ public class PhaseAutenticaçao extends Phase{
             String answerString = new String(answerFromServer);
 
             ChangeWarningMessage(answerString);
-            
-            if (answerString.equals("200"))
+            Scanner sc = new Scanner(answerString).useDelimiter(";");
+            String sucessCode;String isAdminString;
+            try {
+                sucessCode = sc.next();
+                isAdminString =  sc.next();
+            } catch (Exception e) {
+                System.out.println("Mensagem vinda do servidor veio negativa :(");
+                sc.close();
+                return null;
+            }
+            sc.close();
+            boolean isAdmin;
+            if (isAdminString.equals("1"))
+                isAdmin = true;
+            else   isAdmin = false;
+            if (sucessCode.equals("200"))
             {
                 //Cliente entrou com sucesso no servidor
-                
                 //Cliente demonstra que quer comunicar com o servidor
                 dm.send(3, "Show".getBytes());
                 Thread getInfoServer = new ThreadGetInfoServer(dm);
                 getInfoServer.start();
-                return new PhaseMainMenu(dm);
+                return new PhaseMainMenu(dm,isAdmin);
             }
             else
             {
