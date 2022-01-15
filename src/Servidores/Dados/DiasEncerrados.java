@@ -20,4 +20,22 @@ public class DiasEncerrados {
             lockDiasEncerrados.unlock();
         }
     }
+
+    public void getAllDiasEncerrados()
+    {
+
+    }
+
+    public boolean hasData(LocalDate data) {
+        try{
+            lockDiasEncerrados.lock();
+            for (LocalDate localDate : diasEncerrados) {
+                if (localDate.equals(data))
+                    return true;
+            }
+            return false;
+        }finally {
+            lockDiasEncerrados.unlock();
+        }
+    }
 }

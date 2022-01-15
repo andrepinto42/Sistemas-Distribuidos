@@ -9,10 +9,18 @@ import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
 
 import Viagens.Cidade;
-
+class InfoVoo{
+    public Cidade destino;
+    public int capacidadeMaxima;
+    public InfoVoo(Cidade c,int capacidade)
+    {
+        destino = c;
+        capacidadeMaxima = capacidade;
+    }
+}
 public class GrafoCidades {
     List<Cidade> allCidades = new ArrayList<>();
-    Map<Cidade,List<Cidade>> allVoos = new HashMap<>();
+    Map<Cidade,List<InfoVoo>> allVoos = new HashMap<>();
     Lock lock = new ReentrantLock();
     
 
@@ -25,29 +33,48 @@ public class GrafoCidades {
         } finally  {lock.unlock();}
     }
      //Se pudemos fazer um voo de origem para destino tambem pudemos fazer um de destino para origem
-     public void addVoo(Cidade origem,Cidade destino)
+     public void addVoo(Cidade origem,Cidade destino,int capacidade)
      {
          try{
              lock.lock();
-             List<Cidade> allVoosDestino = allVoos.get(origem);
+             List<InfoVoo> allVoosDestino = allVoos.get(origem);
              if (allVoosDestino == null)
              {
-                 List<Cidade> l = new ArrayList<Cidade>();
-                 l.add(destino);
+                 List<InfoVoo> l = new ArrayList<InfoVoo>();
+                 InfoVoo info = new InfoVoo(destino, capacidade);
+                 l.add(info);
                  allVoos.put(origem,l);
              }
-             else if (!allVoosDestino.contains(destino))
-                 allVoosDestino.add(destino);
+            else {
+                boolean found = false;
+                for (InfoVoo infoVoo : allVoosDestino) {
+                    if (infoVoo.destino.equals(destino))
+                    {
+                        found = true;
+                    }
+                }
+                if (!found) allVoosDestino.add(new InfoVoo(destino, capacidade));
+            }
              
-             List<Cidade> allVoosOrigem = allVoos.get(destino);
+             
+             List<InfoVoo> allVoosOrigem = allVoos.get(destino);
              if (allVoosOrigem == null)
              {
-                 List<Cidade> l = new ArrayList<Cidade>();
-                 l.add(origem);
+                 List<InfoVoo> l = new ArrayList<InfoVoo>();
+                 InfoVoo info = new InfoVoo(origem, capacidade);
+                 l.add(info);
                  allVoos.put(destino,l);
              }
-             else if (!allVoosOrigem.contains(origem))
-                 allVoosOrigem.add(origem);
+             else {
+                boolean found = false;
+                for (InfoVoo infoVoo : allVoosDestino) {
+                    if (infoVoo.destino.equals(origem))
+                    {
+                        found = true;
+                    }
+                }
+                if (!found) allVoosDestino.add(new InfoVoo(origem, capacidade));
+            }
          }
          finally{ lock.unlock();}
      }
@@ -57,7 +84,14 @@ public class GrafoCidades {
      {
          try{
              lock.lock();
-             return allVoos.get(origem);
+             var lista = allVoos.get(origem);
+             List<Cidade> l = new ArrayList<>();
+
+             for (InfoVoo infoVoo : lista) {
+                 l.add( infoVoo.destino);
+             }
+
+             return l;
          }finally{ lock.unlock();}
      }
 
@@ -69,6 +103,20 @@ public class GrafoCidades {
          }finally{ lock.unlock();}
      }
 
+     public int GetSizeVoo(Cidade origem,Cidade destino)
+     {
+         try{
+            lock.lock();
+            for (var info :allVoos.get(origem))
+            {
+                if (info.destino.equals(destino))
+                    return info.capacidadeMaxima;      
+            }
+            return -1;
+        }finally{lock.unlock();}
+
+    }
+
 
      public void PrintVoos()
      {
@@ -79,8 +127,8 @@ public class GrafoCidades {
              for (var entry : allVoos.entrySet()) {
                  System.out.println("Cidade origem -> " + entry.getKey().getNome());
                  System.out.print("Cidades destino -> ");
-                 for (Cidade cidade : entry.getValue()) {
-                     System.out.print(cidade.getNome() + " | ");
+                 for (var info : entry.getValue()) {
+                     System.out.print(info.destino.getNome()+ " capacidade = "+info.capacidadeMaxima +" | ");
                  }
                  System.out.print("\n-------------------------\n");
              }

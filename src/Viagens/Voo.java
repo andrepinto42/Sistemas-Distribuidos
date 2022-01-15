@@ -6,13 +6,14 @@ public class Voo{
     public Cidade origem;
     public Cidade destino;
     public Integer lugaresLivres;
-
+    public LocalDate date;
     //final Integer lugares = 350;
 
-    public Voo(Cidade o, Cidade d, Integer c) {
+    public Voo(Cidade o, Cidade d, Integer c,LocalDate data) {
         this.origem = o;
         this.destino = d;
         this.lugaresLivres = c;
+        this.date = data;
     }
 
     public Voo() {

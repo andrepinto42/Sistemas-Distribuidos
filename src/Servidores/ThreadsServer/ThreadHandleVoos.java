@@ -75,9 +75,8 @@ public class ThreadHandleVoos extends Thread {
 
         List<Voo> listaVoos = new ArrayList<>();
 
-        for(LocalDate d : db.getDiasEncerrados()){
-            if(d.equals(data)) return "encerrado";
-        }
+        boolean found = db.GetDiasEncerrados().hasData(data);
+        if (found) return "encerrado";
 
         while(!queue.isEmpty())
         {
@@ -93,21 +92,14 @@ public class ThreadHandleVoos extends Thread {
                 return "-1";
             }
             
-            
 
             if(vooFoundWithReserva == null) {
-                //Buscar voos possiveis e adicionar à lista
-                Voo vooFound;
-                try {
-                    vooFound = db.GetAllViagensPossiveis().DecrementVooLugares(origem, next);
-                } catch (Exception e) {
-                    //Voo nao foi possivel ser decrementado, deve ser cancelada a reserva
-                    System.out.println("O Voo não suporta mais passageiros vai ter de ser cancelada a reserva");
-                    return "-1";
-                }
-                //Nao é possivel inserir o passageiro no voo
-                if (vooFound == null) return "-1";
-                listaVoos.add(vooFound);
+                //Buscar voos possiveis e adicionar à lista              
+                var grafo =db.GetGrafoCidades();
+                int capacidadeMaxima = grafo.GetSizeVoo(origem, next);
+                //Criar um voo com a capacidade maxima predefenida pelo servidor
+                Voo v = new Voo(origem, next, capacidadeMaxima-1, data);
+                listaVoos.add(v);
             }
             else
                 listaVoos.add(vooFoundWithReserva);

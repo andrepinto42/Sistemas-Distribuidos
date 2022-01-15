@@ -1,16 +1,7 @@
 package Servidores.Dados;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
-import java.util.stream.Collectors;
 
 import Viagens.Cidade;
-import Viagens.Reserva;
 import Viagens.Voo;
 
 public class ServerData {
@@ -35,9 +26,9 @@ public class ServerData {
     }
 
     private void AddVoos() {
-        allViagensPossiveis.AddVoo(new Voo(new Cidade("Braga"), new Cidade("Veneza"), 2));
-        allViagensPossiveis.AddVoo(new Voo(new Cidade("Veneza"),new Cidade("Turim"), 2));
-        allViagensPossiveis.AddVoo(new Voo(new Cidade("Turim"),new Cidade("Nevada"), 2));
+    //     allViagensPossiveis.AddVoo(new Voo(new Cidade("Braga"), new Cidade("Veneza"), 2));
+    //     allViagensPossiveis.AddVoo(new Voo(new Cidade("Veneza"),new Cidade("Turim"), 2));
+    //     allViagensPossiveis.AddVoo(new Voo(new Cidade("Turim"),new Cidade("Nevada"), 2));
     }
 
     private void AddCities() {
@@ -61,15 +52,15 @@ public class ServerData {
         grafoCidades.addCidade(c8);
         grafoCidades.addCidade(c9);
 
-        grafoCidades.addVoo(c1,c2);
-        grafoCidades.addVoo(c1,c3);
-        grafoCidades.addVoo(c3,c4);
-        grafoCidades.addVoo(c8,c9);
-        grafoCidades.addVoo(c8,c4);
-        grafoCidades.addVoo(c5,c6);
-        grafoCidades.addVoo(c8,c9);
-        grafoCidades.addVoo(c8,c7);
-        grafoCidades.addVoo(c9,c1);
+        grafoCidades.addVoo(c1,c2,2);
+        grafoCidades.addVoo(c1,c3,2);
+        grafoCidades.addVoo(c3,c4,2);
+        grafoCidades.addVoo(c8,c9,2);
+        grafoCidades.addVoo(c8,c4,2);
+        grafoCidades.addVoo(c5,c6,2);
+        grafoCidades.addVoo(c8,c9,2);
+        grafoCidades.addVoo(c8,c7,2);
+        grafoCidades.addVoo(c1,c9,503);
 
     }
 

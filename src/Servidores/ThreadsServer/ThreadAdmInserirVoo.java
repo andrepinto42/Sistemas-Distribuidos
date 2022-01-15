@@ -55,14 +55,15 @@ public class ThreadAdmInserirVoo extends Thread {
 
     private String AdicionarVoo(Cidade origem, Cidade destino, Integer capacidade) {
 
-        for(Voo v : db.GetAllViagensPossiveis().GetAllVoosPossiveis()){
-            if(v.getOrigem().equals(origem) || v.getDestino().equals(destino)){
-                //System.out.println("Voo já existe!");
-                return "jaexiste";
-            }
-        }
-        db.GetAllViagensPossiveis().AddVoo(new Voo(origem,destino,capacidade));
-        //System.out.println("Voo adicionado!");
+        //TODO
+        // for(Voo v : db.GetAllViagensPossiveis().GetAllVoosPossiveis()){
+        //     if(v.getOrigem().equals(origem) || v.getDestino().equals(destino)){
+        //         //System.out.println("Voo já existe!");
+        //         return "jaexiste";
+        //     }
+        // }
+        // db.GetAllViagensPossiveis().AddVoo(new Voo(origem,destino,capacidade));
+        // //System.out.println("Voo adicionado!");
 
         return "valid";
     }
