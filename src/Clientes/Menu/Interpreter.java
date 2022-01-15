@@ -37,7 +37,7 @@ public class Interpreter {
         while(alive)
         {
             //Por enquanto deixar em comentario para ver o programa a dar debug
-            //ShowMenu.ClearScreen();
+            ShowMenu.ClearScreen();
 
             comandoInput = phaseNow.Show(sc);
             if (comandoInput.equalsIgnoreCase("quit"))

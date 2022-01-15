@@ -57,12 +57,13 @@ public class ClientData {
         sb.append("-------------------------\nPrinting All Voos\n");
         sb.append("-------------------------\nCIDADE ORIGEM -> CIDADE DESTINO\n");
         for (var entry : allVoos.entrySet()) {
-            sb.append(entry.getKey().getNome()).append(" -> ");
-
             for (Cidade cidade : entry.getValue()) {
-                sb.append(cidade.getNome()).append(" \n ");
+                if (cidade.equals(entry.getKey()))
+                    continue;
+                
+                sb.append(entry.getKey().getNome()).append(" -> ");
+                sb.append(cidade.getNome()).append(" \n");
             }
-            sb.append("\n------------------------------\n");
         }
         return sb.toString();
     }

@@ -52,7 +52,7 @@ public class ServerData {
         grafoCidades.addVoo(c8,c9,2);
         grafoCidades.addVoo(c8,c4,2);
         grafoCidades.addVoo(c5,c6,2);
-        grafoCidades.addVoo(c8,c9,2);
+        grafoCidades.addVoo(c4,c6,2);
         grafoCidades.addVoo(c8,c7,2);
         grafoCidades.addVoo(c1,c9,503);
 

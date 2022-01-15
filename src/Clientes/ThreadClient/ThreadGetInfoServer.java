@@ -50,6 +50,10 @@ public class ThreadGetInfoServer extends Thread {
 
         for (int i = 0; i < size; i++) {
             Cidade cidade = new Cidade( sc.next());
+            
+            //Se a cidade ja existir no mapa ela nao é adicionada
+            if (allCidades.contains(cidade))
+                continue;
             mapVoos.put(cidade, new ArrayList<>());
             allCidades.add(cidade);    
         }

@@ -34,14 +34,7 @@ public class PhaseShowVoos extends Phase {
     public Phase HandleCommand(List<String> s) {
 
         dm.send(3,"Show");
-        // Thread getInfoServer = new ThreadGetInfoServer(dm);
-        // getInfoServer.start();
-
-        // try {
-        //     getInfoServer.join();
-        // } catch (InterruptedException e) {
-        //     e.printStackTrace();
-        // }
+      
             while(clientData.wait)
             {
                 try {
