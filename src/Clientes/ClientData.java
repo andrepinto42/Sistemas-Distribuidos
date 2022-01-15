@@ -53,12 +53,14 @@ public class ClientData {
     public String PrintVoos()
     {
         StringBuilder sb = new StringBuilder();
+
         sb.append("-------------------------\nPrinting All Voos\n");
+        sb.append("-------------------------\nCIDADE ORIGEM -> CIDADE DESTINO\n");
         for (var entry : allVoos.entrySet()) {
-            sb.append("Cidade origem -> ").append(entry.getKey().getNome()).append("\n");
-            sb.append("Cidade destino -> ");
+            sb.append(entry.getKey().getNome()).append(" -> ");
+
             for (Cidade cidade : entry.getValue()) {
-                sb.append(cidade.getNome()).append(" | ");
+                sb.append(cidade.getNome()).append(" \n ");
             }
             sb.append("\n------------------------------\n");
         }
