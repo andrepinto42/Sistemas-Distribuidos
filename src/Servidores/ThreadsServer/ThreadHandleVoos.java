@@ -128,7 +128,7 @@ public class ThreadHandleVoos extends Thread {
         for (int i = 0; i < 9; i++) {//id com 9 digitos
             idReserv.append(random.nextInt(10));}// gerar um número aleatório entre 0 e 9
 
-        db.getReservas().add(new Reserva(idReserv.toString(),listaVoos,data));
+        db.addReserva(new Reserva(idReserv.toString(),listaVoos,data));
 
         return idReserv.toString();
     }

@@ -61,7 +61,7 @@ public class ThreadAdmInserirVoo extends Thread {
                 return "jaexiste";
             }
         }
-        db.GetAllVoosPossiveis().add(new Voo(origem,destino,capacidade));
+        db.allVoosPossiveisAddVoo(new Voo(origem,destino,capacidade));
         //System.out.println("Voo adicionado!");
 
         return "valid";

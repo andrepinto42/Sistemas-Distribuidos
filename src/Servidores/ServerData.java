@@ -24,6 +24,8 @@ public class ServerData {
     //Map<LocalDate,List<Voo>> todosVoos = new HashMap<>();
 
     Lock lockViagensPossiveis = new ReentrantLock();
+    Lock lockDiasEncerrados = new ReentrantLock();
+    Lock lockReservas = new ReentrantLock();
     
    
 
@@ -183,6 +185,34 @@ public class ServerData {
             }
             return false;
         }finally{lockViagensPossiveis.unlock();}
+    }
+
+    public void allVoosPossiveisAddVoo(Voo v){
+        try{
+            lockViagensPossiveis.lock();
+
+            this.GetAllVoosPossiveis().add(v);
+        }finally {
+            lockViagensPossiveis.unlock();
+        }
+    }
+
+    public void addDiaEncerrado(LocalDate data){
+        try{
+            lockDiasEncerrados.lock();
+            this.getDiasEncerrados().add(data);
+        }finally {
+            lockDiasEncerrados.unlock();
+        }
+    }
+
+    public void addReserva(Reserva r){
+        try{
+            lockReservas.lock();
+            this.getReservas().add(r);
+        }finally {
+            lockReservas.unlock();
+        }
     }
 
 
