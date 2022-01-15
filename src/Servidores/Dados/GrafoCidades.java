@@ -124,11 +124,12 @@ public class GrafoCidades {
          {
              lock.lock();
              System.out.println("-------------------------\nPrinting All Voos");
+             System.out.println("CIDADE ORIGEM -> CIDADE DESTINO");
              for (var entry : allVoos.entrySet()) {
-                 System.out.println("Cidade origem -> " + entry.getKey().getNome());
-                 System.out.print("Cidades destino -> ");
+                 System.out.println(entry.getKey().getNome()+" -> ");
+                 //("Cidades destino);
                  for (var info : entry.getValue()) {
-                     System.out.print(info.destino.getNome()+ " capacidade = "+info.capacidadeMaxima +" | ");
+                     System.out.print(info.destino.getNome());
                  }
                  System.out.print("\n-------------------------\n");
              }

@@ -42,10 +42,7 @@ public class ThreadShowVoos extends Thread {
 
         StringBuilder sb1 = new StringBuilder();
 
-        for(Voo v : db.GetAllViagensPossiveis().GetAllVoosPossiveis()){
-            System.out.println("ORIGEM -> DESTINO\n");
-            System.out.println(v.getOrigem().getNome() + "->" + v.getDestino().getNome() + "\n");
-        }
+        db.GetGrafoCidades().PrintVoos();
         //return true;
         return ;
 
