@@ -1,10 +1,13 @@
 package Servidores.ThreadsServer;
 
 import java.io.IOException;
+import java.util.Scanner;
 
 import Connections.Demultiplexer;
 import Connections.TaggedConnection;
 import Servidores.Server;
+import Servidores.ServerData;
+import Servidores.Users;
 
 public class ThreadAutetication extends Thread {
     TaggedConnection taggedConnection;
@@ -60,17 +63,18 @@ public class ThreadAutetication extends Thread {
 
     //TODO
     private boolean CheckNonValidUser(String data) {
-        if (data.equals("andre;123;"))
-        {
-            return false;
+        Scanner sc = new Scanner(data).useDelimiter(";");
+        String username = sc.next();
+        String password = sc.next();
+        sc.close();
+        Users users = Server.getDataBase().GetUsers();
+        boolean valid = users.checkUser(username, password);
+        if (!valid) {
+            serverMessage = "Dados inseridos estao incorretos\n";
+            return true;
         }
-        //Por enquanto o utilizador rui é um administrador
-        if(data.equals("rui;123;"))
-        {
-            isAdmin = true;
-            return false;
-        }
-        serverMessage = "Dados inseridos estao incorretos\n";
-        return true;
+        
+        isAdmin = users.isAdmin(username);
+        return false;
     }
 }
