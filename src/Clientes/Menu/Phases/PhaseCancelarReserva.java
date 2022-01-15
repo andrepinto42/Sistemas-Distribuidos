@@ -5,6 +5,7 @@ import Connections.BreadthFirst;
 import Connections.Demultiplexer;
 import Viagens.Cidade;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -28,10 +29,7 @@ public class PhaseCancelarReserva extends Phase {
 
         TipForInput = "ID de reserva";
 
-        InputForStages = new String[]{
-                "",
-        };
-        numberStages = InputForStages.length +1;
+        numberStages = 1;
         this.dm = dm;
     }
 
@@ -39,35 +37,20 @@ public class PhaseCancelarReserva extends Phase {
     public Phase HandleCommand(List<String> s) {
         if (s.get(0).isEmpty())
             return null;
-
-        //Converter braga para Braga
         String id = s.get(0);
 
+        dm.send(8, id+ ";");
+
         try {
-            boolean isValid = HandleAux(id);
-            if (isValid)
-            {
-                String sucessMessage = "A Reserva " +id + " foi cancelada com sucesso!\n";
-                return new PhaseMainMenu(dm,sucessMessage);
-            }else ChangeWarningMessage("O ID de reserva está incorreto!");
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
+            String responseServer =new String (dm.receive(8));
+            if (responseServer.equals("200"))
+                return new PhaseMainMenu(dm, "Reserva cancelada com sucesso\n");
+            else
+                return new PhaseMainMenu(dm,"Esse id nao existe\n");
+        } catch (IOException | InterruptedException e) {e.printStackTrace();return null;}
 
-        return null;
     }
 
-    private boolean HandleAux(String id) throws Exception {
-
-        //System.out.println(id);
-
-        dm.send(5,id.getBytes());
-        var response = dm.receive(5);
-        if (new String(response).equals("200"))
-            return true;
-        else
-            return false;
-    }
+  
 
 }

@@ -73,7 +73,8 @@ public class PhaseBooking extends Phase {
                 return null;
             }
             if(reservationID.equals("encerrado")) ChangeWarningMessage("Erro: O dia já se encontra encerrado!");
-            String sucessMessage = "Reserva de "+ origin + " para o destino " + destiny + " foi adicionada com sucesso!\n" + "ID de Reserva: "+reservationID;
+            String sucessMessage = "Reserva de "+ origin + " para o destino " + destiny + " foi adicionada com sucesso!\n"
+             + "ID de Reserva: "+reservationID+"\n";
             return new PhaseMainMenu(dm,sucessMessage);
 
         } catch (Exception e) {

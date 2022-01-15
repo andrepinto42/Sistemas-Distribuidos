@@ -47,8 +47,7 @@ public class ThreadAutetication extends Thread {
         //Passar para a fase seguinte -> Atender pedidos do utilizador
         Thread tShowMenu = new ThreadShowMenu(demultiplexer);
         tShowMenu.start();
-        Thread tHandlevoos = new ThreadHandleVoos(demultiplexer);
-        tHandlevoos.start();
+       
 
         if (isAdmin)
         {
@@ -58,6 +57,13 @@ public class ThreadAutetication extends Thread {
             tRegisto.start();
             Thread tEncerrar = new ThreadEncerrarDia(demultiplexer);
             tEncerrar.start();
+        }
+        else
+        {
+            Thread tHandlevoos = new ThreadHandleVoos(demultiplexer);
+            tHandlevoos.start();
+            Thread tCancelaReserva = new ThreadCancelaReserva(demultiplexer);
+            tCancelaReserva.start();
         }
 
         //Resetar o valor para o admin

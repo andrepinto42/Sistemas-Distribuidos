@@ -28,15 +28,15 @@ class Reserva {
 }
 public class Reservas {
     List<Reserva> reservas = new ArrayList<>(); //reservas dos clientes | cliente pode remover se dia não tiver encerrado pelo ADM
-    Lock lockReservas = new ReentrantLock();
+    Lock lock = new ReentrantLock();
 
 
     public void addReserva(Reserva r){
         try{
-            lockReservas.lock();
+            lock.lock();
             reservas.add(r);
         }finally {
-            lockReservas.unlock();
+            lock.unlock();
         }
     }
 
@@ -53,7 +53,7 @@ public class Reservas {
     public List<Voo> GetListVoosDay(LocalDate date)
     {
         try{
-            lockReservas.lock();
+            lock.lock();
             for (Reserva r : reservas) {
                 if (r.data.equals(date))
                     return r.travel;
@@ -61,14 +61,14 @@ public class Reservas {
             //Nao foi encontrado nenhuma reserva de voo para esse dia
             return null;
         }finally {
-            lockReservas.unlock();
+            lock.unlock();
         }
     }
 
     public Voo DecrementLugarReserva(LocalDate date,Cidade origem,Cidade destino) throws Exception
     {
         try{
-            lockReservas.lock();
+            lock.lock();
             for (Reserva r : reservas) {
                 if (r.data.equals(date))
                 {
@@ -89,13 +89,27 @@ public class Reservas {
             }
             return null;           
         }finally {
-            lockReservas.unlock();
+            lock.unlock();
         }
     }
+    public boolean RemoveReserva(String ID)
+    {
+        try{
+            lock.lock();
+            for (Reserva reserva : reservas) {
+                if (reserva.idReserva.equals(ID))
+                {
+                    reservas.remove(reserva);
+                    return true;
+                }
+            }
+            return false;
+        }finally{lock.unlock();}
 
+    }
     public void RemoveReservasDia(LocalDate date) {
         try{
-            lockReservas.lock();
+            lock.lock();
             List<Integer> removerIndices= new ArrayList<>();
             for (int i = 0; i < reservas.size(); i++) {
                 if (reservas.get(i).data.equals(date))
@@ -110,7 +124,7 @@ public class Reservas {
                 
             }
         }finally{
-            lockReservas.unlock();
+            lock.unlock();
         }
     }
 }
