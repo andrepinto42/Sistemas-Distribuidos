@@ -24,15 +24,25 @@ public class ServerData {
     //Map<LocalDate,List<Voo>> todosVoos = new HashMap<>();
 
     Lock lockViagensPossiveis = new ReentrantLock();
+
     Lock lockDiasEncerrados = new ReentrantLock();
     Lock lockReservas = new ReentrantLock();
     
+
+    Users allUsers = new Users();
+
    
 
     public ServerData()
     {
         AddCities();
         AddVoos();
+        AddUsers();
+    }
+
+    private void AddUsers() {
+        allUsers.addUser("andre","123", false);
+        allUsers.addUser("rui","123", true);
     }
 
     private void AddVoos() {
@@ -231,6 +241,11 @@ public class ServerData {
 
     public void setDiasEncerrados(List<LocalDate> diasEncerrados) {
         this.diasEncerrados = diasEncerrados;
+    }
+
+    public Users GetUsers()
+    {
+        return allUsers;
     }
 }
     
