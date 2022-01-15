@@ -38,7 +38,7 @@ public class ThreadShowMenu extends Thread {
 
 
     private void HandleShowServertoClient() {
-        List<Cidade> allCities = db.GetAllCidades();
+        List<Cidade> allCities = db.GetGrafoCidades().GetAllCidades();
         
         StringBuilder sBuilder = new StringBuilder();
 

@@ -15,16 +15,11 @@ import Viagens.Voo;
 
 public class ServerData {
 
-    List<LocalDate> diasEncerrados = new ArrayList<>(); //dias encerrados pelo adm
-    //Map<LocalDate,List<Voo>> todosVoos = new HashMap<>();
-
-
-    Lock lockDiasEncerrados = new ReentrantLock();    
-
     Users allUsers = new Users();
     GrafoCidades grafoCidades = new GrafoCidades();
     Reservas allReservas = new Reservas();
     ViagensPossiveis allViagensPossiveis = new ViagensPossiveis();
+    DiasEncerrados allDiasEncerrados = new DiasEncerrados();
    
 
     public ServerData()
@@ -78,37 +73,15 @@ public class ServerData {
 
     }
 
+    /*
 
-    public List<Cidade> GetAllCidades()
-    {
-        return grafoCidades.GetAllCidades();
-    }
+            **GETTERS**
     
-    public void PrintVoos()
+    */
+    public DiasEncerrados GetDiasEncerrados()
     {
-       grafoCidades.PrintVoos();
+        return allDiasEncerrados;
     }
-
-
-
-    public void addDiaEncerrado(LocalDate data){
-        try{
-            lockDiasEncerrados.lock();
-            this.getDiasEncerrados().add(data);
-        }finally {
-            lockDiasEncerrados.unlock();
-        }
-    }
-
-
-    public List<LocalDate> getDiasEncerrados() {
-        return diasEncerrados;
-    }
-
-    public void setDiasEncerrados(List<LocalDate> diasEncerrados) {
-        this.diasEncerrados = diasEncerrados;
-    }
-
     public Users GetUsers()
     {
         return allUsers;
