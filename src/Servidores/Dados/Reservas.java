@@ -92,4 +92,25 @@ public class Reservas {
             lockReservas.unlock();
         }
     }
+
+    public void RemoveReservasDia(LocalDate date) {
+        try{
+            lockReservas.lock();
+            List<Integer> removerIndices= new ArrayList<>();
+            for (int i = 0; i < reservas.size(); i++) {
+                if (reservas.get(i).data.equals(date))
+                {
+                   removerIndices.add(i);
+                }
+            }
+            for (int i = 0; i < removerIndices.size(); i++) {
+                int index = removerIndices.get(i);
+                Reserva r = reservas.remove(index);
+                System.out.println("Reserva foi removida do servidor " + r.idReserva);
+                
+            }
+        }finally{
+            lockReservas.unlock();
+        }
+    }
 }

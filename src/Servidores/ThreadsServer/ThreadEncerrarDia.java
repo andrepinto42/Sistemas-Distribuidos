@@ -22,7 +22,7 @@ public class ThreadEncerrarDia extends Thread {
     public void run() {
         while (true) {
             try {
-                String message = new String(dm.receive(10));
+                String message = new String(dm.receive(11));
                 HandleEncerraDia(message);
             } catch (IOException | InterruptedException e) {
                 // TODO Auto-generated catch block
@@ -33,23 +33,21 @@ public class ThreadEncerrarDia extends Thread {
     }
 
     private void HandleEncerraDia(String message) throws IOException, InterruptedException {
-        Scanner sc = new Scanner(message);
-        LocalDate date = LocalDate.parse(sc.next());
-
-        boolean canClose = Close(date);
-        if (canClose) {
-            dm.send(4, "200".getBytes());
-        } else
-            dm.send(4, "100".getBytes());
-    }
-
-    private boolean Close(LocalDate date) {
-
-        if(date.isAfter(LocalDate.now()) || date.equals(LocalDate.now())){
-            db.GetDiasEncerrados().addDiaEncerrado(date);
-            return true;
+        Scanner sc = new Scanner(message).useDelimiter(";");
+        LocalDate date;
+        try {
+            date = LocalDate.parse(sc.next());
+        } catch (Exception e) {
+            dm.send(11, "100");
+            sc.close();
+            return;
         }
+        db.GetDiasEncerrados().addDiaEncerrado(date);
 
-        return false;
+        db.GetReservas().RemoveReservasDia(date);
+        dm.send(11, "200");
+        sc.close();
     }
+
+  
 }

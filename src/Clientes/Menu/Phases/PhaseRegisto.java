@@ -30,42 +30,15 @@ public class PhaseRegisto extends Phase{
         String password = s.get(1);
         String message = username + ";" + password + ";";
 
-        dm.send(1, message.getBytes());
-        System.out.println("SENT TO SERVER -> " + message);
+        //pinheiro;123;
+        dm.send(10, message);
         try {
-            byte[] answerFromServer = dm.receive(1);
-            String answerString = new String(answerFromServer);
-
-            ChangeWarningMessage(answerString);
-            Scanner sc = new Scanner(answerString).useDelimiter(";");
-            String sucessCode;
-            try {
-                sucessCode = sc.next();
-
-            } catch (Exception e) {
-                System.out.println("Mensagem vinda do servidor veio negativa :(");
-                sc.close();
-                return null;
-            }
-            sc.close();
-
-            if (sucessCode.equals("200"))
-            {
-                //Cliente entrou com sucesso no servidor
-                //Cliente demonstra que quer comunicar com o servidor
-                dm.send(3, "Show".getBytes());
-                Thread getInfoServer = new ThreadGetInfoServer(dm);
-                getInfoServer.start();
-                return new PhaseMainMenu(dm);
-            }
-            else
-            {
-                System.out.println("Autenticaçao do cliente falhou");
-            }
-
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
-        }
+            String responseServer = new String( dm.receive(10));
+            if (responseServer.equals("200"))
+                return new PhaseMainMenu(dm,"Utilizador registado com sucesso");
+            return null;
+        } catch (IOException | InterruptedException e) {}
+        
         return null;
     }
 

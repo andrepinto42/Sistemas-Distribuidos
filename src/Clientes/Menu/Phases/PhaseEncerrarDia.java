@@ -4,6 +4,7 @@ import Clientes.Client;
 import Connections.Demultiplexer;
 import Viagens.Cidade;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -24,12 +25,8 @@ public class PhaseEncerrarDia extends Phase {
         Messages =arr;
 
         TipForInput = "Insira uma data do tipo (yyyy-mm-dd)";
-
-        InputForStages = new String[]{
-                "",
-                "",
-        };
-        numberStages = InputForStages.length +1;
+        
+        numberStages = 1;
         this.dm = dm;
     }
 
@@ -37,35 +34,23 @@ public class PhaseEncerrarDia extends Phase {
     public Phase HandleCommand(List<String> s) {
         if (s.get(0).isEmpty())
             return null;
+        LocalDate data;
+        try {
+            data= LocalDate.parse(s.get(0));
+        } catch (Exception e) {return null;}
 
-        //Converter braga para Braga
-        LocalDate data = LocalDate.parse(s.get(0));
+
+        dm.send(11, data.toString()+ ";");
 
         try {
-            boolean isValid = HandleAux(data);
-            if (isValid)
-            {
-                String sucessMessage = s.get(0) + " foi encerrado com sucesso!\n";
-                return new PhaseMainMenu(dm,sucessMessage);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+            String responseServer = new String(dm.receive(11));
+            String sucess = "Foi com sucesso encerrado o dia " + data.toString()+ "\n";
+            if (responseServer.equals("200"))
+                return new PhaseMainMenu(dm,sucess);
             return null;
-        }
+        } catch (IOException | InterruptedException e) {return null;}
 
-        return null;
     }
 
-    private boolean HandleAux(LocalDate data) throws Exception {
-
-        String msg = data.toString();
-
-        dm.send(10,msg.getBytes());
-        var response = dm.receive(10);
-        if (new String(response).equals("200"))
-            return true;
-        else
-            return false;
-    }
 
 }

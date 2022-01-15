@@ -54,6 +54,10 @@ public class ThreadAutetication extends Thread {
         {
             Thread tAdminInserir = new ThreadAdmInserirVoo(demultiplexer);
             tAdminInserir.start();
+            Thread tRegisto = new ThreadRegisto(demultiplexer);
+            tRegisto.start();
+            Thread tEncerrar = new ThreadEncerrarDia(demultiplexer);
+            tEncerrar.start();
         }
 
         //Resetar o valor para o admin

@@ -46,6 +46,7 @@ public class PhaseMainMenu extends Phase{
             "add -> adicionar um novo voo",
             "cancel -> cancelar uma reserva",
             "close -> encerrar as reservas um dia",
+            "register -> registar um usuario",
             };
 
         }
@@ -82,6 +83,8 @@ public class PhaseMainMenu extends Phase{
                     return new PhaseEncerrarDia(dm);
                 case "cancel":
                     return new PhaseCancelarReserva(dm);
+                case "register":
+                    return new PhaseRegisto(dm);
                 default:
                     break;
             }

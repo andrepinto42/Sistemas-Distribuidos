@@ -29,6 +29,8 @@ public class Demultiplexer{
         bufferMensagens.put(3, new Entry());
         bufferMensagens.put(4, new Entry());//Receber voos do cliente
         bufferMensagens.put(9, new Entry());//Admin adicionar voos
+        bufferMensagens.put(10, new Entry());//Registar usuarios
+        bufferMensagens.put(11, new Entry());//Encerrar o dia
 
 
 
