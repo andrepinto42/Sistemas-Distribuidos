@@ -26,12 +26,15 @@ public class PhaseAutenticaçao extends Phase{
 
     @Override
     public Phase HandleCommand(List<String> s) {
+       
         String username = s.get(0);
         String password = s.get(1);
+
+        if (username.isEmpty() || password.isEmpty()) return null;
+        
         String message = username + ";" + password + ";";
         
         dm.send(1, message.getBytes());
-        System.out.println("SENT TO SERVER -> " + message);
         try {
             byte[] answerFromServer = dm.receive(1);
             String answerString = new String(answerFromServer);
@@ -43,7 +46,7 @@ public class PhaseAutenticaçao extends Phase{
                 sucessCode = sc.next();
                 isAdminString =  sc.next();
             } catch (Exception e) {
-                System.out.println("Mensagem vinda do servidor veio negativa :(");
+                ChangeWarningMessage("Autenticação falhou...\n");
                 sc.close();
                 return null;
             }
@@ -57,13 +60,16 @@ public class PhaseAutenticaçao extends Phase{
                 //Cliente entrou com sucesso no servidor
                 //Cliente demonstra que quer comunicar com o servidor
                 dm.send(3, "Show".getBytes());
+             
+               
                 Thread getInfoServer = new ThreadGetInfoServer(dm);
                 getInfoServer.start();
+
                 return new PhaseMainMenu(dm,isAdmin);
             }
             else
             {
-                System.out.println("Autenticaçao do cliente falhou");
+               ChangeWarningMessage("Autenticaçao do cliente falhou");
             }
 
         } catch (IOException | InterruptedException e) {

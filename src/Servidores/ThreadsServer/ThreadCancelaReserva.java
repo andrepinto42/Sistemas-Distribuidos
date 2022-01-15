@@ -3,12 +3,8 @@ package Servidores.ThreadsServer;
 import Connections.Demultiplexer;
 import Servidores.Server;
 import Servidores.Dados.ServerData;
-import Viagens.Cidade;
-import Viagens.Reserva;
-import Viagens.Voo;
 
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.*;
 
 public class ThreadCancelaReserva extends Thread {

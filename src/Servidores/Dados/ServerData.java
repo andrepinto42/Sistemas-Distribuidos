@@ -2,7 +2,6 @@ package Servidores.Dados;
 
 
 import Viagens.Cidade;
-import Viagens.Voo;
 
 public class ServerData {
 

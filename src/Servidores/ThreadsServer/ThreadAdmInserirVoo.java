@@ -4,11 +4,8 @@ import Connections.Demultiplexer;
 import Servidores.Server;
 import Servidores.Dados.ServerData;
 import Viagens.Cidade;
-import Viagens.Reserva;
-import Viagens.Voo;
 
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.*;
 
 public class ThreadAdmInserirVoo extends Thread {
@@ -28,7 +25,6 @@ public class ThreadAdmInserirVoo extends Thread {
                 String message =new String( dm.receive(9));
                 HandleVoosFromClient(message);
             } catch (IOException | InterruptedException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
                 return;
             }

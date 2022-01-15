@@ -1,9 +1,7 @@
 package Servidores.ThreadsServer;
 
 import Connections.Demultiplexer;
-import Connections.TaggedConnection;
 import Servidores.Dados.ServerData;
-import Servidores.Dados.Users;
 import Servidores.Server;
 
 import java.io.IOException;
@@ -26,7 +24,6 @@ public class ThreadRegisto extends Thread {
                 String message =new String( dm.receive(10));
                 HandleRegistoUser(message);
             } catch (IOException | InterruptedException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
                 return;
             }

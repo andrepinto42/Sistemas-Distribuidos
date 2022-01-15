@@ -1,12 +1,10 @@
 package Clientes.Menu.Phases;
 
 import Clientes.Client;
-import Clientes.ThreadClient.ThreadGetInfoServer;
 import Connections.Demultiplexer;
 import Viagens.Cidade;
 
 import java.util.List;
-import java.util.Scanner;
 
 public class PhaseShowVoos extends Phase {
 

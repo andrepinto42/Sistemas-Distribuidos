@@ -5,12 +5,10 @@ import java.time.LocalDate;
 import java.util.*;
 
 import Connections.Demultiplexer;
-import Connections.Entry;
 import Servidores.Server;
 import Servidores.Dados.Reservas;
 import Servidores.Dados.ServerData;
 import Viagens.Cidade;
-import Viagens.Reserva;
 import Viagens.Voo;
 
 public class ThreadHandleVoos extends Thread {
@@ -30,7 +28,6 @@ public class ThreadHandleVoos extends Thread {
                 String message =new String( dm.receive(4));
                 HandleVoosFromClient(message);
             } catch (IOException | InterruptedException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
                 return;
             }

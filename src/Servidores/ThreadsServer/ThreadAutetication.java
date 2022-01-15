@@ -6,7 +6,6 @@ import java.util.Scanner;
 import Connections.Demultiplexer;
 import Connections.TaggedConnection;
 import Servidores.Server;
-import Servidores.Dados.ServerData;
 import Servidores.Dados.Users;
 
 public class ThreadAutetication extends Thread {
@@ -75,9 +74,10 @@ public class ThreadAutetication extends Thread {
         Scanner sc = new Scanner(data).useDelimiter(";");
         String username = sc.next();
         String password = sc.next();
-        sc.close();
         Users users = Server.getDataBase().GetUsers();
         boolean valid = users.checkUser(username, password);
+        sc.close();
+
         if (!valid) {
             serverMessage = "Dados inseridos estao incorretos\n";
             return true;

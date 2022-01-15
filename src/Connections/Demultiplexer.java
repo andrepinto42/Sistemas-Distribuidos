@@ -23,7 +23,6 @@ public class Demultiplexer{
     }
     private Thread ReadingSocketThread;
     public void start() {
-        //Por enquanto só lesse do buffer mensagens com um 1
         bufferMensagens.put(1, new Entry());
         bufferMensagens.put(2, new Entry());
         bufferMensagens.put(3, new Entry());
@@ -56,7 +55,7 @@ public class Demultiplexer{
                 }
             }  
             catch (Exception e) {
-                System.out.println("Servidor foi interrompido");
+                System.out.println("DeMultiplexer foi interrompido");
                 for (var entrada : bufferMensagens.values()) {
                     entrada.lock.lock();
                     entrada.alive = false;

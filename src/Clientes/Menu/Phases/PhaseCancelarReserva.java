@@ -1,15 +1,11 @@
 package Clientes.Menu.Phases;
 
 import Clientes.Client;
-import Connections.BreadthFirst;
 import Connections.Demultiplexer;
 import Viagens.Cidade;
 
 import java.io.IOException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Stack;
 
 public class PhaseCancelarReserva extends Phase {
 

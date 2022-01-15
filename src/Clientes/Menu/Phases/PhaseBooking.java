@@ -3,13 +3,11 @@ package Clientes.Menu.Phases;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Map;
 import java.util.Stack;
 
 import Clientes.Client;
 import Connections.Demultiplexer;
 import Connections.BreadthFirst;
-import Servidores.Server;
 import Viagens.Cidade;
 
 public class PhaseBooking extends Phase {
@@ -32,7 +30,7 @@ public class PhaseBooking extends Phase {
 
         InputForStages = new String[]{
             "Destino",
-            "Dia",
+            "Dia(dd-MM-YYYY)",
         };
         numberStages = InputForStages.length +1;
         this.dm = dm;
@@ -55,7 +53,7 @@ public class PhaseBooking extends Phase {
         try {
             date = LocalDate.parse(s.get(2), formatter);
         } catch (Exception e) {
-            System.out.println("Data nao é valida");
+            ChangeWarningMessage("Data nao é valida\n");
             return null;
         }
 
@@ -78,7 +76,7 @@ public class PhaseBooking extends Phase {
             return new PhaseMainMenu(dm,sucessMessage);
 
         } catch (Exception e) {
-            e.printStackTrace();
+            ChangeWarningMessage(e.getMessage()+"\n");
             return null;
         }
 

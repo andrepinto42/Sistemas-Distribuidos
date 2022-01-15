@@ -5,7 +5,6 @@ import java.net.Socket;
 
 import Clientes.Menu.Interpreter;
 import Connections.Demultiplexer;
-import Connections.Frame;
 import Connections.TaggedConnection;
 
 public class Client {
@@ -19,6 +18,7 @@ public class Client {
 
         Demultiplexer demultiplexer = new Demultiplexer(tag);
         demultiplexer.start();
+
         
         Interpreter it = new Interpreter(demultiplexer);
         it.Initialize();

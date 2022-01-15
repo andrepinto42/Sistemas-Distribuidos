@@ -1,11 +1,9 @@
 package Clientes.Menu.Phases;
 
-import Clientes.ThreadClient.ThreadGetInfoServer;
 import Connections.Demultiplexer;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Scanner;
 
 public class PhaseRegisto extends Phase{
 

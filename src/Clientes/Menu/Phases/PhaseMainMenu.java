@@ -1,14 +1,8 @@
 package Clientes.Menu.Phases;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
-import Clientes.Client;
-import Clientes.ClientData;
 import Connections.Demultiplexer;
-import Viagens.Cidade;
 
 public class PhaseMainMenu extends Phase{
     static boolean isAdmin= false;

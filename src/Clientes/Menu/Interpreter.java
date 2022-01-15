@@ -27,7 +27,7 @@ public class Interpreter {
     public void Initialize()
     {
         Phase phaseNow = new PhaseAutenticaçao(dm);
-        
+       
         try {
             byte[] answerFromServer = dm.receive(1);
             System.out.println("Received First message " + new String(answerFromServer));

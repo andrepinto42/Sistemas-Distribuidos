@@ -3,7 +3,6 @@ package Servidores.ThreadsServer;
 import Connections.Demultiplexer;
 import Servidores.Server;
 import Servidores.Dados.ServerData;
-import Viagens.Reserva;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -25,7 +24,6 @@ public class ThreadEncerrarDia extends Thread {
                 String message = new String(dm.receive(11));
                 HandleEncerraDia(message);
             } catch (IOException | InterruptedException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
                 return;
             }
