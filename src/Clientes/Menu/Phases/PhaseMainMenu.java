@@ -57,6 +57,7 @@ public class PhaseMainMenu extends Phase{
                 "Menu",
                 "quit -> Sair do programa",
                 "book -> fazer uma reserva",
+                "show -> mostrar voos",
             };
         }
         
@@ -89,6 +90,8 @@ public class PhaseMainMenu extends Phase{
             switch (command) {
                 case "book":
                     return new PhaseBooking(dm);
+                case "show":
+                    return new PhaseShowVoos(dm);
                 default:
                     break;
             }

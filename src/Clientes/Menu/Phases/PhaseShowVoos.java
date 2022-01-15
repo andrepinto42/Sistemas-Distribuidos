@@ -1,10 +1,12 @@
 package Clientes.Menu.Phases;
 
 import Clientes.Client;
+import Clientes.ThreadClient.ThreadGetInfoServer;
 import Connections.Demultiplexer;
 import Viagens.Cidade;
 
 import java.util.List;
+import java.util.Scanner;
 
 public class PhaseShowVoos extends Phase {
 
@@ -22,42 +24,38 @@ public class PhaseShowVoos extends Phase {
 
         Messages =arr;
 
-        TipForInput = "";
+        TipForInput = "Intruduza uma linha qualquer";
 
-        InputForStages = new String[]{
-                "",
-        };
-        numberStages = InputForStages.length +1;
+        numberStages =  1;
         this.dm = dm;
     }
 
     @Override
     public Phase HandleCommand(List<String> s) {
 
-        try {
-            boolean isValid = HandleAux();
-            if (isValid)
+        dm.send(3,"Show");
+        // Thread getInfoServer = new ThreadGetInfoServer(dm);
+        // getInfoServer.start();
+
+        // try {
+        //     getInfoServer.join();
+        // } catch (InterruptedException e) {
+        //     e.printStackTrace();
+        // }
+            while(clientData.wait)
             {
-                String sucessMessage = "Voos apresentados no servidor!\n";
-                return new PhaseMainMenu(dm,sucessMessage);
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
 
-        return null;
+            ;
+       
+        return new PhaseMainMenu(dm,clientData.PrintVoos());
+
     }
 
-    private boolean HandleAux() throws Exception {
-        byte[] msg = new byte[0];
-
-        dm.send(6,msg);
-        var response = dm.receive(6);
-        if (new String(response).equals("200"))
-            return true;
-        else
-            return false;
-    }
 
 }

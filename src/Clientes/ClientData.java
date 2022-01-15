@@ -10,6 +10,7 @@ import Viagens.Cidade;
 public class ClientData {
     List<Cidade> allCidades = new ArrayList<>();
     Map<Cidade,List<Cidade>> allVoos = new HashMap<>();
+    public boolean wait = false;
     
     public ClientData()
     {
@@ -49,16 +50,18 @@ public class ClientData {
         return allCidades;
     }
 
-    public void PrintVoos()
+    public String PrintVoos()
     {
-        System.out.println("-------------------------\nPrinting All Voos");
+        StringBuilder sb = new StringBuilder();
+        sb.append("-------------------------\nPrinting All Voos\n");
         for (var entry : allVoos.entrySet()) {
-            System.out.println("Cidade origem -> " + entry.getKey().getNome());
-            System.out.print("Cidades destino -> ");
+            sb.append("Cidade origem -> ").append(entry.getKey().getNome()).append("\n");
+            sb.append("Cidade destino -> ");
             for (Cidade cidade : entry.getValue()) {
-                System.out.print(cidade.getNome() + " | ");
+                sb.append(cidade.getNome()).append(" | ");
             }
-            System.out.print("\n-------------------------\n");
+            sb.append("\n------------------------------\n");
         }
+        return sb.toString();
     }
 }
