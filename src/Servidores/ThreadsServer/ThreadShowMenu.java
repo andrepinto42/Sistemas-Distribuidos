@@ -28,7 +28,6 @@ public class ThreadShowMenu extends Thread {
                 {
                     HandleShowServertoClient();
                 }
-            
             } catch (IOException | InterruptedException e) {
                 e.printStackTrace();
                 dm.close();

@@ -44,27 +44,18 @@ public class ThreadAdmInserirVoo extends Thread {
         Integer capac = Integer.parseInt( sc.next());
 
         String isValid  =  AdicionarVoo(origem,destino,capac);
-        if(isValid.equals("valid"))
-        {
-            dm.send(9,"200".getBytes());
-        }
-        if(isValid.equals("jaexiste"))
-            dm.send(9,"jaexiste".getBytes());
+        dm.send(9, isValid);
         sc.close();
     }
 
     private String AdicionarVoo(Cidade origem, Cidade destino, Integer capacidade) {
+        var grafo = db.GetGrafoCidades();
 
-        //TODO
-        // for(Voo v : db.GetAllViagensPossiveis().GetAllVoosPossiveis()){
-        //     if(v.getOrigem().equals(origem) || v.getDestino().equals(destino)){
-        //         //System.out.println("Voo já existe!");
-        //         return "jaexiste";
-        //     }
-        // }
-        // db.GetAllViagensPossiveis().AddVoo(new Voo(origem,destino,capacidade));
-        // //System.out.println("Voo adicionado!");
+        if (!grafo.GetAllCidades().contains(origem) && !grafo.GetAllCidades().contains(destino))
+            return "naoExiste";
+        
+        grafo.addVoo(origem, destino, capacidade);
 
-        return "valid";
+        return "200";
     }
 }

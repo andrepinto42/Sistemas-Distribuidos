@@ -57,8 +57,8 @@ public class PhaseAdmInserirVoo extends Phase {
                 String sucessMessage = "O voo " +origin+ "->" +destiny+ " foi adicionado com sucesso!\n";
                 return new PhaseMainMenu(dm,sucessMessage);
             }else if(isValid.equals("false")){
-                ChangeWarningMessage("O voo já existe!");
-            }else ChangeWarningMessage("O voo não foi adicionado!");
+                ChangeWarningMessage("O voo já existe!\n");
+            }else ChangeWarningMessage("O voo não foi adicionado!\n");
         } catch (Exception e) {
             e.printStackTrace();
             return null;

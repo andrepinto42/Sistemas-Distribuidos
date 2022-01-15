@@ -37,15 +37,15 @@ public class ThreadShowVoos extends Thread {
 
     private void HandleVoosFromClient() throws IOException, InterruptedException {
 
-        if(db.GetAllViagensPossiveis().GetAllVoosPossiveis().isEmpty())
-            dm.send(4,"100".getBytes());
+        // if(db.GetAllViagensPossiveis().GetAllVoosPossiveis().isEmpty())
+        //     dm.send(4,"100".getBytes());
 
-        StringBuilder sb1 = new StringBuilder();
+        // StringBuilder sb1 = new StringBuilder();
 
-        for(Voo v : db.GetAllViagensPossiveis().GetAllVoosPossiveis()){
-            System.out.println("ORIGEM -> DESTINO\n");
-            System.out.println(v.getOrigem().getNome() + "->" + v.getDestino().getNome() + "\n");
-        }
+        // for(Voo v : db.GetAllViagensPossiveis().GetAllVoosPossiveis()){
+        //     System.out.println("ORIGEM -> DESTINO\n");
+        //     System.out.println(v.getOrigem().getNome() + "->" + v.getDestino().getNome() + "\n");
+        // }
         //return true;
         return ;
 

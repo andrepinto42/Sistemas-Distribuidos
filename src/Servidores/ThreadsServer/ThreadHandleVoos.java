@@ -94,7 +94,7 @@ public class ThreadHandleVoos extends Thread {
             
 
             if(vooFoundWithReserva == null) {
-                //Buscar voos possiveis e adicionar à lista              
+                        
                 var grafo =db.GetGrafoCidades();
                 int capacidadeMaxima = grafo.GetSizeVoo(origem, next);
                 //Criar um voo com a capacidade maxima predefenida pelo servidor

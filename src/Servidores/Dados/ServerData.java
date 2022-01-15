@@ -9,14 +9,13 @@ public class ServerData {
     Users allUsers = new Users();
     GrafoCidades grafoCidades = new GrafoCidades();
     Reservas allReservas = new Reservas();
-    ViagensPossiveis allViagensPossiveis = new ViagensPossiveis();
+    
     DiasEncerrados allDiasEncerrados = new DiasEncerrados();
    
 
     public ServerData()
     {
         AddCities();
-        AddVoos();
         AddUsers();
     }
 
@@ -25,19 +24,14 @@ public class ServerData {
         allUsers.addUser("rui","123", true);
     }
 
-    private void AddVoos() {
-    //     allViagensPossiveis.AddVoo(new Voo(new Cidade("Braga"), new Cidade("Veneza"), 2));
-    //     allViagensPossiveis.AddVoo(new Voo(new Cidade("Veneza"),new Cidade("Turim"), 2));
-    //     allViagensPossiveis.AddVoo(new Voo(new Cidade("Turim"),new Cidade("Nevada"), 2));
-    }
 
     private void AddCities() {
         Cidade c1 = new Cidade("Braga");
         Cidade c2 = new Cidade("Porto");
         Cidade c3 = new Cidade("Madrid");
-        Cidade c4 = new Cidade("New York");
+        Cidade c4 = new Cidade("California");
         Cidade c5 = new Cidade("Pyongyang");
-        Cidade c6 = new Cidade("Hong Kong");
+        Cidade c6 = new Cidade("Beijing");
         Cidade c7 = new Cidade("Nevada");
         Cidade c8 = new Cidade("Turim");
         Cidade c9 = new Cidade("Veneza");
@@ -85,10 +79,7 @@ public class ServerData {
     {
         return grafoCidades;
     }
-    public ViagensPossiveis GetAllViagensPossiveis()
-    {
-        return allViagensPossiveis;
-    }
+   
 }
     
 

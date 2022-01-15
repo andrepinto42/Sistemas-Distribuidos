@@ -36,7 +36,14 @@ public abstract class Phase {
         
         ShowMenu.Print(Messages,TipForInput,sucessMessage);
         System.out.print(":");  
-        return sc.nextLine();
+        String linha;
+        try {
+            linha =sc.nextLine();
+        } catch (Exception e) {
+            linha = "none";
+            return linha;
+        }
+        return linha;
     }
 
     public String Next(Scanner sc,int i)

@@ -8,7 +8,7 @@ import Clientes.ThreadClient.ThreadGetInfoServer;
 import Connections.Demultiplexer;
 
 public class PhaseAutenticaçao extends Phase{
-    
+    static Thread threadGetInfoServer;
     public PhaseAutenticaçao(Demultiplexer dm)
     {
         super(dm);

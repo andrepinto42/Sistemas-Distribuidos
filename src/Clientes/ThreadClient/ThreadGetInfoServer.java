@@ -21,20 +21,22 @@ public class ThreadGetInfoServer extends Thread {
     @Override
     public void run() {
         try {
-            var answer = dm.receive(3);
-            int size =ParseFirstMessageShow(answer);
-            // System.out.println("I received the voos from server " + new String(answer));
+            while(true)
+            {
 
-            answer = dm.receive(3);
-            ParseSecondMessageShow(answer,size);
-            // System.out.println("I received destination list from server " + new String(answer));
-
-
+                var answer = dm.receive(3);
+                clientData.wait = true;
+                int size =ParseFirstMessageShow(answer);
+                answer = dm.receive(3);
+                ParseSecondMessageShow(answer,size);
+                clientData.wait = false;
+            }
+            
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
 
-        System.out.println("\nObtained all Info From Server, thread exiting...\n...");
+       
     }
 
   
