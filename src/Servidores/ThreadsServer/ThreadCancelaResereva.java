@@ -56,7 +56,7 @@ public class ThreadCancelaResereva extends Thread {
             }
         }
         if(!ident){
-            System.out.println("ID de reserva incorreto!");
+            //System.out.println("ID de reserva incorreto!");
             return false;
         }
 

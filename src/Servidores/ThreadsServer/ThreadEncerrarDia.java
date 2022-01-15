@@ -46,7 +46,7 @@ public class ThreadEncerrarDia extends Thread {
     private boolean Close(LocalDate date) {
 
         if(date.isAfter(LocalDate.now()) || date.equals(LocalDate.now())){
-            db.getDiasEncerrados().add(date);
+            db.addDiaEncerrado(date);
             return true;
         }
 

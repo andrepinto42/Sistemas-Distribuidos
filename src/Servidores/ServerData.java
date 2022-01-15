@@ -24,8 +24,17 @@ public class ServerData {
     //Map<LocalDate,List<Voo>> todosVoos = new HashMap<>();
 
     Lock lockViagensPossiveis = new ReentrantLock();
+
+    Lock lockDiasEncerrados = new ReentrantLock();
+    Lock lockReservas = new ReentrantLock();
+    
+
     Users allUsers = new Users();
+<<<<<<< HEAD
     GrafoCidades grafoCidades = new GrafoCidades();
+=======
+
+>>>>>>> 3969cc0aca29fdb9ca12bb824ab42c7a1f2cc845
    
 
     public ServerData()
@@ -152,6 +161,34 @@ public class ServerData {
             }
             return false;
         }finally{lockViagensPossiveis.unlock();}
+    }
+
+    public void allVoosPossiveisAddVoo(Voo v){
+        try{
+            lockViagensPossiveis.lock();
+
+            this.GetAllVoosPossiveis().add(v);
+        }finally {
+            lockViagensPossiveis.unlock();
+        }
+    }
+
+    public void addDiaEncerrado(LocalDate data){
+        try{
+            lockDiasEncerrados.lock();
+            this.getDiasEncerrados().add(data);
+        }finally {
+            lockDiasEncerrados.unlock();
+        }
+    }
+
+    public void addReserva(Reserva r){
+        try{
+            lockReservas.lock();
+            this.getReservas().add(r);
+        }finally {
+            lockReservas.unlock();
+        }
     }
 
 
