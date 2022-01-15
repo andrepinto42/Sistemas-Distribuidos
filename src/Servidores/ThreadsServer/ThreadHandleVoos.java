@@ -113,10 +113,6 @@ public class ThreadHandleVoos extends Thread {
             {
                 //System.out.println("Esse voo nao existe man, por favor pede ao admin para inserir na base de dados");
                 return null;
-                // Voo newVoo = new Voo(origem, next, 4);
-                // db.GetAllVoosPossiveis().add(newVoo);
-
-                // listaVoos.add(newVoo);
             }
 
             origem = next;

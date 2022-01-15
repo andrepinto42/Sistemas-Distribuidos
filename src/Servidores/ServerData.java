@@ -25,6 +25,7 @@ public class ServerData {
 
     Lock lockViagensPossiveis = new ReentrantLock();
     Users allUsers = new Users();
+    GrafoCidades grafoCidades = new GrafoCidades();
    
 
     public ServerData()
@@ -55,26 +56,27 @@ public class ServerData {
         Cidade c7 = new Cidade("Nevada");
         Cidade c8 = new Cidade("Turim");
         Cidade c9 = new Cidade("Veneza");
-        allCidades.add(c1 );
-        allCidades.add(c2 );
-        allCidades.add(c3 );
-        allCidades.add(c4 );
-        allCidades.add(c5 );
-        allCidades.add(c6 );
-        allCidades.add(c7 );
-        allCidades.add(c8 );
-        allCidades.add(c9 );
+        
+        grafoCidades.addCidade(c1);
+        grafoCidades.addCidade(c2);
+        grafoCidades.addCidade(c3);
+        grafoCidades.addCidade(c4);
+        grafoCidades.addCidade(c5);
+        grafoCidades.addCidade(c6);
+        grafoCidades.addCidade(c7);
+        grafoCidades.addCidade(c8);
+        grafoCidades.addCidade(c9);
 
+        grafoCidades.addVoo(c1,c2);
+        grafoCidades.addVoo(c1,c3);
+        grafoCidades.addVoo(c3,c4);
+        grafoCidades.addVoo(c8,c9);
+        grafoCidades.addVoo(c8,c4);
+        grafoCidades.addVoo(c5,c6);
+        grafoCidades.addVoo(c8,c9);
+        grafoCidades.addVoo(c8,c7);
+        grafoCidades.addVoo(c9,c1);
 
-        addVoo(c1,c2);
-        addVoo(c1,c3);
-        addVoo(c3,c4);
-        addVoo(c8,c9);
-        addVoo(c8,c4);
-        addVoo(c5,c6);
-        addVoo(c8,c9);
-        addVoo(c8,c7);
-        addVoo(c9,c1);
     }
 
     
@@ -82,46 +84,24 @@ public class ServerData {
     //Se pudemos fazer um voo de origem para destino tambem pudemos fazer um de destino para origem
     public void addVoo(Cidade origem,Cidade destino)
     {
-        try{
-            lockVoos.lock();
-            List<Cidade> allVoosDestino = allVoos.get(origem);
-            if (allVoosDestino == null)
-            {
-                List<Cidade> l = new ArrayList<Cidade>();
-                l.add(destino);
-                allVoos.put(origem,l);
-            }
-            else if (!allVoosDestino.contains(destino))
-                allVoosDestino.add(destino);
-            
-            List<Cidade> allVoosOrigem = allVoos.get(destino);
-            if (allVoosOrigem == null)
-            {
-                List<Cidade> l = new ArrayList<Cidade>();
-                l.add(origem);
-                allVoos.put(destino,l);
-            }
-            else if (!allVoosOrigem.contains(origem))
-                allVoosOrigem.add(origem);
-        }
-        finally{ lockVoos.unlock();}
+       grafoCidades.addVoo(origem, destino);
     }
 
     public List<Cidade> GetPossibleVoo(Cidade origem)
     {
-        try{
-            lockVoos.lock();
-            return allVoos.get(origem);
-        }finally{ lockVoos.unlock();}
+       return grafoCidades.GetPossibleVoo(origem);
     }
 
     public List<Cidade> GetAllCidades()
     {
-        try{
-            lockVoos.lock();
-            return allVoos.keySet().stream().collect(Collectors.toList());
-        }finally{ lockVoos.unlock();}
+        return grafoCidades.GetAllCidades();
     }
+    
+    public void PrintVoos()
+    {
+       grafoCidades.PrintVoos();
+    }
+
     public List<Voo> GetAllVoosPossiveis()
     {
         try
@@ -131,23 +111,6 @@ public class ServerData {
         }finally {lockViagensPossiveis.unlock();}
     }
 
-    public void PrintVoos()
-    {
-        try
-        {
-            lockVoos.lock();
-            System.out.println("-------------------------\nPrinting All Voos");
-            for (var entry : allVoos.entrySet()) {
-                System.out.println("Cidade origem -> " + entry.getKey().getNome());
-                System.out.print("Cidades destino -> ");
-                for (Cidade cidade : entry.getValue()) {
-                    System.out.print(cidade.getNome() + " | ");
-                }
-                System.out.print("\n-------------------------\n");
-            }
-
-        }finally{ lockVoos.unlock();}
-    }
 
     public Integer getVooLugares(Cidade origem,Cidade destino)
     {

@@ -61,7 +61,6 @@ public class ThreadAutetication extends Thread {
         System.out.println("Thread de autenticação foi concluida...");
     }
 
-    //TODO
     private boolean CheckNonValidUser(String data) {
         Scanner sc = new Scanner(data).useDelimiter(";");
         String username = sc.next();
