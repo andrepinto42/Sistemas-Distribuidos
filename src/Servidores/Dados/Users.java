@@ -1,4 +1,4 @@
-package Servidores;
+package Servidores.Dados;
 
 import java.util.HashMap;
 import java.util.concurrent.locks.Lock;

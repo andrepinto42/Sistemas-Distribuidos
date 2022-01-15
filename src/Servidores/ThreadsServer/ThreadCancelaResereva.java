@@ -2,7 +2,7 @@ package Servidores.ThreadsServer;
 
 import Connections.Demultiplexer;
 import Servidores.Server;
-import Servidores.ServerData;
+import Servidores.Dados.ServerData;
 import Viagens.Cidade;
 import Viagens.Reserva;
 import Viagens.Voo;
@@ -48,8 +48,9 @@ public class ThreadCancelaResereva extends Thread {
     private boolean CancelaR(String id) {
         Reserva reserva = null;
         boolean ident = false;
-
-        for(Reserva r : db.getReservas()){
+        //TODO
+        /*
+        for(Reserva r : db.GetReservas().GetAllReservas()){
             if(r.getIdReserva().equals(id)){
                 reserva = r;
                 ident = true;
@@ -63,7 +64,7 @@ public class ThreadCancelaResereva extends Thread {
         for (LocalDate d : db.getDiasEncerrados()) {
             if (d.equals(reserva.getData())) return false;
         }
-
+*/
         return true;
     }
 }

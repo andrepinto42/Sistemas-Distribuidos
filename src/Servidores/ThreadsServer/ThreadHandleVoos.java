@@ -7,7 +7,8 @@ import java.util.*;
 import Connections.Demultiplexer;
 import Connections.Entry;
 import Servidores.Server;
-import Servidores.ServerData;
+import Servidores.Dados.Reservas;
+import Servidores.Dados.ServerData;
 import Viagens.Cidade;
 import Viagens.Reserva;
 import Viagens.Voo;
@@ -64,15 +65,14 @@ public class ThreadHandleVoos extends Thread {
             dm.send(4, "encerrado".getBytes());
         }else
             dm.send(4, "-1".getBytes());
-
+        
+            sc.close();
     }
 
     private String ReservarVoo(Queue<Cidade> queue, LocalDate data) {
         Cidade origem =  queue.poll(); //BRAGA
         Cidade next = null;
-        boolean found = false;
 
-        Reserva novaReserva = new Reserva();
         List<Voo> listaVoos = new ArrayList<>();
 
         for(LocalDate d : db.getDiasEncerrados()){
@@ -83,40 +83,36 @@ public class ThreadHandleVoos extends Thread {
         {
             next= queue.poll(); //VENEZA
 
-            for(Reserva re : db.getReservas()){
-                if(re.getData().equals(data)){
-                    List<Voo> voos = re.getTravel();
+            Reservas allReservas = db.GetReservas();
+            Voo vooFoundWithReserva;
+            try {
+                vooFoundWithReserva = allReservas.DecrementLugarReserva(data, origem, next);
+            } catch (Exception e) {
+                //Nao há espaco para marcar esse voo
+                System.out.println("Reserva encontra-se cheia, o voo vai ser cancelado");
+                return "-1";
+            }
+            
+            
 
-                    for(Voo v1 : voos){
-                        if( v1.origem.equals(origem) && v1.destino.equals(next)) {
-                            boolean valid =db.DecrementVooLugares(origem, next);
-                            if (!valid) return "-1";//Nao é possivel inserir o passageiro no voo
-                            listaVoos.add(v1);
-                            found = true;
-                        }
-                    }
+            if(vooFoundWithReserva == null) {
+                //Buscar voos possiveis e adicionar à lista
+                Voo vooFound;
+                try {
+                    vooFound = db.GetAllViagensPossiveis().DecrementVooLugares(origem, next);
+                } catch (Exception e) {
+                    //Voo nao foi possivel ser decrementado, deve ser cancelada a reserva
+                    System.out.println("O Voo não suporta mais passageiros vai ter de ser cancelada a reserva");
+                    return "-1";
                 }
+                //Nao é possivel inserir o passageiro no voo
+                if (vooFound == null) return "-1";
+                listaVoos.add(vooFound);
             }
-
-            if(!found) {
-                for (Voo v : db.GetAllVoosPossiveis()) {
-                    if (v.origem.equals(origem) && v.destino.equals(next)) {
-                        boolean valid = db.DecrementVooLugares(origem, next);
-                        //Nao é possivel inserir o passageiro no voo
-                        if (!valid) return "-1";
-                        listaVoos.add(v);
-                        found = true;
-                    }
-                }
-            }
-            if (!found)
-            {
-                //System.out.println("Esse voo nao existe man, por favor pede ao admin para inserir na base de dados");
-                return null;
-            }
-
+            else
+                listaVoos.add(vooFoundWithReserva);
+            
             origem = next;
-            found = false;
         }
 
         StringBuilder idReserv = new StringBuilder();
@@ -124,7 +120,7 @@ public class ThreadHandleVoos extends Thread {
         for (int i = 0; i < 9; i++) {//id com 9 digitos
             idReserv.append(random.nextInt(10));}// gerar um número aleatório entre 0 e 9
 
-        db.addReserva(new Reserva(idReserv.toString(),listaVoos,data));
+        db.GetReservas().addReserva(idReserv.toString(),listaVoos, data);
 
         return idReserv.toString();
     }
@@ -133,7 +129,7 @@ public class ThreadHandleVoos extends Thread {
         List<Cidade> l;
         while(true)
         {
-           if  ( (l =db.GetPossibleVoo(queue.poll()) )  == null) return false;
+           if  ( (l =db.GetGrafoCidades().GetPossibleVoo(queue.poll()) )  == null) return false;
            
            if (queue.peek() == null) return true;
            

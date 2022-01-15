@@ -2,7 +2,7 @@ package Servidores.ThreadsServer;
 
 import Connections.Demultiplexer;
 import Servidores.Server;
-import Servidores.ServerData;
+import Servidores.Dados.ServerData;
 import Viagens.Cidade;
 import Viagens.Reserva;
 import Viagens.Voo;
@@ -37,12 +37,12 @@ public class ThreadShowVoos extends Thread {
 
     private void HandleVoosFromClient() throws IOException, InterruptedException {
 
-        if(db.GetAllVoosPossiveis().isEmpty())
+        if(db.GetAllViagensPossiveis().GetAllVoosPossiveis().isEmpty())
             dm.send(4,"100".getBytes());
 
         StringBuilder sb1 = new StringBuilder();
 
-        for(Voo v : db.GetAllVoosPossiveis()){
+        for(Voo v : db.GetAllViagensPossiveis().GetAllVoosPossiveis()){
             System.out.println("ORIGEM -> DESTINO\n");
             System.out.println(v.getOrigem().getNome() + "->" + v.getDestino().getNome() + "\n");
         }

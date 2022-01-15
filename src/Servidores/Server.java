@@ -6,6 +6,7 @@ import java.net.Socket;
 
 import Connections.Frame;
 import Connections.TaggedConnection;
+import Servidores.Dados.ServerData;
 import Servidores.ThreadsServer.ThreadAutetication;
 
 public class Server {

@@ -2,7 +2,7 @@ package Servidores.ThreadsServer;
 
 import Connections.Demultiplexer;
 import Servidores.Server;
-import Servidores.ServerData;
+import Servidores.Dados.ServerData;
 import Viagens.Cidade;
 import Viagens.Reserva;
 import Viagens.Voo;
@@ -55,13 +55,13 @@ public class ThreadAdmInserirVoo extends Thread {
 
     private String AdicionarVoo(Cidade origem, Cidade destino, Integer capacidade) {
 
-        for(Voo v : db.GetAllVoosPossiveis()){
+        for(Voo v : db.GetAllViagensPossiveis().GetAllVoosPossiveis()){
             if(v.getOrigem().equals(origem) || v.getDestino().equals(destino)){
                 //System.out.println("Voo já existe!");
                 return "jaexiste";
             }
         }
-        db.allVoosPossiveisAddVoo(new Voo(origem,destino,capacidade));
+        db.GetAllViagensPossiveis().AddVoo(new Voo(origem,destino,capacidade));
         //System.out.println("Voo adicionado!");
 
         return "valid";

@@ -1,10 +1,11 @@
 package Viagens;
 
-public class Voo {
+import java.time.LocalDate;
+
+public class Voo{
     public Cidade origem;
     public Cidade destino;
     public Integer lugaresLivres;
-
 
     //final Integer lugares = 350;
 
@@ -42,6 +43,14 @@ public class Voo {
 
     public void setLugaresLivres(Integer lugaresLivres) {
         this.lugaresLivres = lugaresLivres;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (! (obj instanceof Voo)) return false;
+        Voo v = (Voo) obj;
+
+        return (v.origem.equals(this.origem) && v.destino.equals(this.destino));
     }
 
 }

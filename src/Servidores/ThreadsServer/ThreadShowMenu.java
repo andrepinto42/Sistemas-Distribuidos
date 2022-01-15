@@ -5,7 +5,7 @@ import java.util.List;
 
 import Connections.Demultiplexer;
 import Servidores.Server;
-import Servidores.ServerData;
+import Servidores.Dados.ServerData;
 import Viagens.Cidade;
 
 public class ThreadShowMenu extends Thread {
@@ -53,7 +53,7 @@ public class ThreadShowMenu extends Thread {
         sBuilder.delete(0, sBuilder.length());
 
         for (int i = 0; i < allCities.size(); i++) {
-            List<Cidade> allDestinos = db.GetPossibleVoo(allCities.get(i));
+            List<Cidade> allDestinos = db.GetGrafoCidades().GetPossibleVoo(allCities.get(i));
             for (Cidade cidade : allDestinos) {
                 sBuilder.append(cidade.getNome()).append(";");
             }

@@ -6,8 +6,8 @@ import java.util.Scanner;
 import Connections.Demultiplexer;
 import Connections.TaggedConnection;
 import Servidores.Server;
-import Servidores.ServerData;
-import Servidores.Users;
+import Servidores.Dados.ServerData;
+import Servidores.Dados.Users;
 
 public class ThreadAutetication extends Thread {
     TaggedConnection taggedConnection;

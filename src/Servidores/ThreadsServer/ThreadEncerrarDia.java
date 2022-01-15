@@ -2,7 +2,7 @@ package Servidores.ThreadsServer;
 
 import Connections.Demultiplexer;
 import Servidores.Server;
-import Servidores.ServerData;
+import Servidores.Dados.ServerData;
 import Viagens.Reserva;
 
 import java.io.IOException;
