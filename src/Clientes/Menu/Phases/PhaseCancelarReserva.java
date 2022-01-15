@@ -49,7 +49,7 @@ public class PhaseCancelarReserva extends Phase {
             {
                 String sucessMessage = "A Reserva " +id + " foi cancelada com sucesso!\n";
                 return new PhaseMainMenu(dm,sucessMessage);
-            }
+            }else ChangeWarningMessage("O ID de reserva está incorreto!");
         } catch (Exception e) {
             e.printStackTrace();
             return null;

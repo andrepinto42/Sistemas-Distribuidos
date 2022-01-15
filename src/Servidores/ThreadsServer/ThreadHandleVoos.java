@@ -60,8 +60,11 @@ public class ThreadHandleVoos extends Thread {
         {
             dm.send(4,idRes.getBytes());
         }
-        else
-            dm.send(4,"-1".getBytes());
+        else if(idRes.equals("encerrado")) {
+            dm.send(4, "encerrado".getBytes());
+        }else
+            dm.send(4, "-1".getBytes());
+
     }
 
     private String ReservarVoo(Queue<Cidade> queue, LocalDate data) {
@@ -73,7 +76,7 @@ public class ThreadHandleVoos extends Thread {
         List<Voo> listaVoos = new ArrayList<>();
 
         for(LocalDate d : db.getDiasEncerrados()){
-            if(d.equals(data)) return "-1";
+            if(d.equals(data)) return "encerrado";
         }
 
         while(!queue.isEmpty())

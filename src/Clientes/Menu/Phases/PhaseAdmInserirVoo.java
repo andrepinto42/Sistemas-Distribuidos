@@ -51,12 +51,14 @@ public class PhaseAdmInserirVoo extends Phase {
         Cidade destino = new Cidade(destiny);
 
         try {
-            boolean isValid = HandleAux(origem,destino,capaci);
-            if (isValid)
+            String isValid = HandleAux(origem,destino,capaci);
+            if (isValid.equals("true"))
             {
                 String sucessMessage = "O voo " +origin+ "->" +destiny+ " foi adicionado com sucesso!\n";
                 return new PhaseMainMenu(dm,sucessMessage);
-            }
+            }else if(isValid.equals("false")){
+                ChangeWarningMessage("O voo já existe!");
+            }else ChangeWarningMessage("O voo não foi adicionado!");
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -65,7 +67,7 @@ public class PhaseAdmInserirVoo extends Phase {
         return null;
     }
 
-    private boolean HandleAux(Cidade origin, Cidade destiny, Integer capaci) throws Exception {
+    private String HandleAux(Cidade origin, Cidade destiny, Integer capaci) throws Exception {
 
         StringBuilder sb = new StringBuilder();
         sb.append(origin.getNome()).append(";");
@@ -75,11 +77,12 @@ public class PhaseAdmInserirVoo extends Phase {
         String message = sb.toString();
 
         dm.send(9,message.getBytes());
-        var response = dm.receive(9);
-        if (new String(response).equals("200"))
-            return true;
-        else
-            return false;
+        String response = new String( dm.receive(9));
+        if (response.equals("200"))
+            return "true";
+        if(response.equals("jaexiste"))
+            return "false";
+        else return "-1";
     }
     private String ConvertToUpperCase(String s1) {
         return Character.toUpperCase(s1.charAt(0)) + s1.substring(1);

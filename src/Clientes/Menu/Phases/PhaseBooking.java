@@ -72,6 +72,7 @@ public class PhaseBooking extends Phase {
                 ChangeWarningMessage("O voo nao existe, peça ao admin para introduzir esse voo\n");
                 return null;
             }
+            if(reservationID.equals("encerrado")) ChangeWarningMessage("Erro: O dia já se encontra encerrado!");
             String sucessMessage = "Reserva de "+ origin + " para o destino " + destiny + " foi adicionada com sucesso!\n" + "ID de Reserva: "+reservationID;
             return new PhaseMainMenu(dm,sucessMessage);
 
