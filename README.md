@@ -1,18 +1,15 @@
-## Getting Started
+# Sistemas Distribuidos
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+Interaction between client and server using multithreads to communicate and **TCP** __sockets__
 
-## Folder Structure
+### Compiling
 
-The workspace contains two folders by default, where:
+Use `make server` to initialize the server at the __localhost__
 
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
+Use `make client` to initialize client
 
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
+- Client can schedule flights
+- Cancel its reservations
+- Check currents flights available
 
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
-
-## Dependency Management
-
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+All conections and threading is handled by a **Demultiplexer**
